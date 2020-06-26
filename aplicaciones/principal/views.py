@@ -14,13 +14,17 @@ def inicio(request):
         images = HeroSeccion.objects.all()
         banners = BannerSection.objects.all()
         aside = AsideImage.objects.filter(publico = "Mujeres")
-        asideHom = AsideImage.objects.filter(publico = "Mujeres")
+        asideHom = AsideImage.objects.filter(publico = "Hombres")
         public= Persona.objects.all()
         publico = Publico()
-        clothe = Clothing.objects.filter(cat="Ropa")
-        clotheCart = Clothing.objects.filter(cat="Carteras")
-        clotheZap = Clothing.objects.filter(cat="Zapatos")
-        clotheAcc = Clothing.objects.filter(cat="Accesorios")
+        clothe = Clothing.objects.filter(cat="Ropa", publico="Mujeres")
+        clotheCart = Clothing.objects.filter(cat="Carteras", publico="Mujeres")
+        clotheZap = Clothing.objects.filter(cat="Zapatos", publico="Mujeres")
+        clotheAcc = Clothing.objects.filter(cat="Accesorios", publico="Mujeres")
+        clotheH = Clothing.objects.filter(cat="Ropa", publico="Hombres")
+        clotheCartH = Clothing.objects.filter(cat="Carteras", publico="Hombres")
+        clotheZapH = Clothing.objects.filter(cat="Zapatos", publico="Hombres")
+        clotheAccH = Clothing.objects.filter(cat="Accesorios", publico="Hombres")
         categories= Cat()
         category= Category.objects.all()
         asideForm =Aside()
@@ -43,7 +47,12 @@ def inicio(request):
             'asideHom':asideHom,
             'clotheCart':clotheCart,
             'clotheZap':clotheZap,
-            'clotheAcc':clotheAcc
+            'clotheAcc':clotheAcc,
+            'clotheH': clotheH,
+            'clotheCartH':clotheCartH,
+            'clotheZapH':clotheZapH,
+            'clotheAccH':clotheAccH
+            
          }
     if request.method == "POST": 
         form = Hero(request.POST or None, request.FILES or None)
