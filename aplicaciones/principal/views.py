@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django import forms
-from .forms import UsuarioForm, Hero, Banner
-from .models import HeroSection, BannerSection, AsideImage
+from .forms import UsuarioForm, Hero, Banner, Aside, Clothes, Publico, Cat, Publico
+from .models import HeroSeccion, BannerSection, AsideImage, Clothing, Persona, Category, Persona
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as do_login
 from django.contrib.auth.forms import AuthenticationForm
@@ -10,33 +10,76 @@ from django.contrib.auth import logout as do_logout
 
 
 def inicio(request):
-    if request.method=="GET":
-        images = HeroSection.objects.all()
+    if request.method =="GET":
+        images = HeroSeccion.objects.all()
         banners = BannerSection.objects.all()
-        aside= AsideImage.objects.all()
+        aside = AsideImage.objects.filter(publico = "Mujeres")
+        asideHom = AsideImage.objects.filter(publico = "Mujeres")
+        public= Persona.objects.all()
+        publico = Publico()
+        clothe = Clothing.objects.filter(cat="Ropa")
+        clotheCart = Clothing.objects.filter(cat="Carteras")
+        clotheZap = Clothing.objects.filter(cat="Zapatos")
+        clotheAcc = Clothing.objects.filter(cat="Accesorios")
+        categories= Cat()
+        category= Category.objects.all()
+        asideForm =Aside()
         banner = Banner()
+        cat = Clothes()
         form = Hero()
         contexto={
             'images':images,
             'form':form,
             'banner':banner,
             'banners': banners,
-            'aside':aside
+            'aside':aside,
+            'asideForm': asideForm,
+            'cat': cat,
+            'clothe': clothe,
+            'categories': categories,
+            'category':category,
+            'publico': publico,
+            'public':public,
+            'asideHom':asideHom,
+            'clotheCart':clotheCart,
+            'clotheZap':clotheZap,
+            'clotheAcc':clotheAcc
          }
     if request.method == "POST": 
         form = Hero(request.POST or None, request.FILES or None)
         banner= Banner(request.POST or None, request.FILES or None)
+        aside = Aside(request.POST or None, request.FILES or None)
+        cat = Clothes(request.POST or None, request.FILES or None)
+        cate = Cat(request.POST)
+        publico= Publico(request.POST)
         contexto ={
             'form':form,
-            'banner':banner
-        } 
+            'banner':banner,
+            'aside': aside,
+            'cat': cat,
+            'cate': cate,
+            'publico':publico
+        }
+        if publico.is_valid():
+            publico.save()
+            return redirect('principal:index')
+        if aside.is_valid():
+            aside.save()
+            return redirect('principal:index')
+        if cate.is_valid():
+            cate.save()
+            return redirect('principal:index')
+        if cat.is_valid():
+            cat.save()
+            return redirect('principal:index') 
         if form.is_valid():
             form.save()
-            img_obj = form.instance 
             return redirect('principal:index')
         if banner.is_valid():
             banner.save()
             return redirect('principal:index')
+        
+        
     return render(request, 'index.html', contexto )
 
 def banner(request):
@@ -113,7 +156,7 @@ def register(request):
     return render(request, "register.html", {'form': form})
 
 def cambios(request,id):
-    img= HeroSection.objects.get(id = id)
+    img= HeroSeccion.objects.get(id = id)
     if request.method == 'GET':
         form = Hero(instance = img)
         contexto = {
@@ -128,6 +171,23 @@ def cambios(request,id):
             form.save()
             return redirect('principal:index')
     return render(request,'changehero.html',contexto)
+
+def cambiosAside(request,id):
+    aside= AsideImage.objects.get(id = id)
+    if request.method == 'GET':
+        form = Aside(instance = aside)
+        contexto = {
+            'form':form
+        }
+    else:
+        form= Aside(request.POST, instance = aside)
+        contexto ={
+            'form':form
+        }
+        if form.is_valid():
+            form.save()
+            return redirect('principal:index')
+    return render(request,'aside.html',contexto)
 
 def cambiosbanner(request,id):
     ban=BannerSection.objects.get(id = id)
@@ -148,11 +208,21 @@ def cambiosbanner(request,id):
 
 
 def eliminarPromo(request,id):
-    img= HeroSection.objects.get(id=id)
+    img= HeroSeccion.objects.get(id=id)
     img.delete()
     return redirect('principal:index')
 
 def eliminarBanner(request,id):
     ban= BannerSection.objects.get(id = id)
     ban.delete()
+    return redirect('principal:index')
+
+def eliminarCategoria(request,name):
+    cat= Category.objects.get(name=name)
+    cat.delete()
+    return redirect('principal:index')
+
+def eliminarPublico(request, publico):
+    pub= Persona.objects.get(publico = publico)
+    pub.delete()
     return redirect('principal:index')

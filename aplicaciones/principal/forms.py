@@ -13,7 +13,7 @@ class UsuarioForm(UserCreationForm):
 
 class Hero(forms.ModelForm):
     class Meta:
-        model = HeroSection
+        model = HeroSeccion
         fields = "__all__"
 
 class Banner(forms.ModelForm):
@@ -30,4 +30,14 @@ class Aside(forms.ModelForm):
 class Clothes(forms.ModelForm):
     class Meta:
         model = Clothing
+        fields = "__all__"
+
+class Cat(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = "__all__"
+
+class Publico(forms.ModelForm):
+    class Meta:
+        model = Persona
         fields = "__all__"
