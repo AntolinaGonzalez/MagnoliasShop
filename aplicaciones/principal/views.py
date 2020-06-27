@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django import forms
 from .forms import UsuarioForm, Hero, Banner, Aside, Clothes, Publico, Cat, Publico
 from .models import HeroSeccion, BannerSection, AsideImage, Clothing, Persona, Category, Persona
@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as do_login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import logout as do_logout
+from django.http import HttpResponse, HttpResponseRedirect, Http404
+
 # Create your views here.
 
 
@@ -17,6 +19,7 @@ def inicio(request):
         asideHom = AsideImage.objects.filter(publico = "Hombres")
         public= Persona.objects.all()
         publico = Publico()
+        likes = Clothing()
         clothe = Clothing.objects.filter(cat="Ropa", publico="Mujeres")
         clotheCart = Clothing.objects.filter(cat="Carteras", publico="Mujeres")
         clotheZap = Clothing.objects.filter(cat="Zapatos", publico="Mujeres")
@@ -51,8 +54,8 @@ def inicio(request):
             'clotheH': clotheH,
             'clotheCartH':clotheCartH,
             'clotheZapH':clotheZapH,
-            'clotheAccH':clotheAccH
-            
+            'clotheAccH':clotheAccH,
+            'likes':likes
          }
     if request.method == "POST": 
         form = Hero(request.POST or None, request.FILES or None)
@@ -90,6 +93,10 @@ def inicio(request):
         
         
     return render(request, 'index.html', contexto )
+
+
+
+
 
 def banner(request):
     if request.method=="GET":
@@ -235,3 +242,24 @@ def eliminarPublico(request, publico):
     pub= Persona.objects.get(publico = publico)
     pub.delete()
     return redirect('principal:index')
+
+def producto(request,id):
+    prod= Clothing.objects.filter(id = id)
+    contexto ={
+        'prod':prod
+    }
+    return render(request, 'product.html', contexto)
+
+def shopM(request):
+    todos= Clothing.objects.filter(publico = "Mujeres")
+    contexto={
+        'todos':todos
+    }
+    return render(request, 'shop.html', contexto)
+
+def shopH(request):
+    todos= Clothing.objects.filter(publico = "Hombres")
+    contexto={
+        'todos':todos
+    }
+    return render(request, 'shop.html', contexto)

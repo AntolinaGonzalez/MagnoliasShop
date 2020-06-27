@@ -1,4 +1,5 @@
 from django.urls import path
+from django.conf.urls import url
 from .views import *
 from django.conf.urls.static import static
 from django.conf import settings
@@ -14,7 +15,9 @@ urlpatterns = [
     path('cambiosAside/<int:id>/', cambiosAside, name="cambiosAside"),
     path('eliminarBanner/<int:id>/', eliminarBanner, name="eliminarBanner"),
     path('eliminarCat/<str:name>/', eliminarCategoria, name="eliminarCat"),
-    path('eliminarPublico/<str:publico>/', eliminarPublico, name="eliminarPublico")
-
+    path('eliminarPublico/<str:publico>/', eliminarPublico, name="eliminarPublico"),
+    path('productos/<int:id>/', producto, name="producto"),
+    path('shop/', shopM, name="shop"),
+    path('shopH/', shopH, name="shopH"),
 
 ]+ static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)

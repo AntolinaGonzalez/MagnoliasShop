@@ -78,8 +78,6 @@
             $("#accesorio").removeClass("ropita");
             $("#accesorio").addClass("ropashow");
         });
-        $("#form-cat").click(function(){
-            $(".category").toogle();
-        });
-
+        
+       
 })(jQuery);

@@ -41,3 +41,4 @@ class Publico(forms.ModelForm):
     class Meta:
         model = Persona
         fields = "__all__"
+

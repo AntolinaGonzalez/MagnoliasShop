@@ -65,7 +65,7 @@
                     </div>
                 </div>
                 <div class="ht-right">
-                {% if user.is_authenticated %}
+                {% if user.is_superuser %}
                 <a href="salir/" class="login-panel"></i>Salir</a>
                 <a href="" class="login-panel"><i class="fa fa-user"></i>{{user.username}}</a>
                 
@@ -209,15 +209,6 @@
     </header>
     <!-- Header End -->
 
-    <!-- Hero Section Begin -->
-    <!-- (function ($){
-        $("#formulario-hero").click(function(){
-            $("#desplegar-form-banner").toggle();
-        });
-        $("#formulario-banner").click(function(){
-            $("#desplegar-form-banner").toggle();
-        });
-    })(jQuery); -->
    
     <button id="formulario-hero">Agregar Promo</button>
     
@@ -474,10 +465,11 @@
                 {% for asides in aside %}
                 <div class="col-lg-3">
                     <div class="product-large set-bg" data-setbg="{{ asides.image.url }}">
-                        <p>{{ asides.nombre}}<p>
-                        <p></p>{{asides.frase}}</p>
-                        <a href="{% url 'principal:cambiosAside' asides.id %}">Cambiar</a>
+                        <h2>{{ asides.nombre}}</h2>
+                        <a href="#">{{asides.frase}}</a>
+                       <p> <a href="{% url 'principal:cambiosAside' asides.id %}">Cambiar</a></p>
                     </div>
+                   
                 </div>
                
                 {% endfor %}
@@ -493,33 +485,33 @@
                    
                     <div id="ropa" class="product-slider owl-carousel">
                         {% for i in clothe %}
-                            <div class="product-item">
-                               
-                                <div class="pi-pic">
-                                    <img src="{{ i.image.url}}" alt="">
-                                    <div class="sale">Sale</div>
-                                    <div class="icon">
-                                        <i class="far fa-heart"></i>
-                                    </div>
-                                    <ul>
-                                        <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                        <li class="quick-view"><a href="#">+ Quick View</a></li>
-                                        <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
-                                    </ul>
+                        <div class="product-item">
+                           
+                            <div class="pi-pic">
+                                <img src="{{ i.image.url}}" alt="">
+                                <div class="sale">Sale</div>
+                                <div class="icon">
+                                    <i class="far fa-heart"></i>
                                 </div>
-                                <div class="pi-text">
-                                    <div class="catagory-name">Coat</div>
-                                    <a href="#">
-                                        <h5>{{ i.nombre}}</h5>
-                                    </a>
-                                    <div class="product-price">
-                                        {{i.precio}}
-                                        
-                                    </div>
-                                </div>
-                                
+                                <ul>
+                                    <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                    <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                    <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                                </ul>
                             </div>
-                            {% endfor %} 
+                            <div class="pi-text">
+                                <div class="catagory-name">Coat</div>
+                                <a href="{% url 'principal:producto' i.id %}">
+                                    <h5>{{ i.nombre}}</h5>
+                                </a>
+                                <div class="product-price">
+                                    {{i.precio}}
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                        {% endfor %} 
                     </div>
                     
                         <div id="cartera" class="product-slider owl-carousel ropita">
@@ -540,7 +532,7 @@
                                 </div>
                                 <div class="pi-text">
                                     <div class="catagory-name">Coat</div>
-                                    <a href="#">
+                                    <a href="{% url 'principal:producto' i.id %}">
                                         <h5>{{ i.nombre}}</h5>
                                     </a>
                                     <div class="product-price">
@@ -571,7 +563,7 @@
                                 </div>
                                 <div class="pi-text">
                                     <div class="catagory-name">Coat</div>
-                                    <a href="#">
+                                    <a href="{% url 'principal:producto' i.id %}">
                                         <h5>{{ i.nombre}}</h5>
                                     </a>
                                     <div class="product-price">
@@ -602,7 +594,7 @@
                                 </div>
                                 <div class="pi-text">
                                     <div class="catagory-name">Coat</div>
-                                    <a href="#">
+                                    <a href="{% url 'principal:producto' i.id %}">
                                         <h5>{{ i.nombre}}</h5>
                                     </a>
                                     <div class="product-price">
@@ -614,9 +606,7 @@
                             </div>
                             {% endfor %} 
                         </div>
-                        
-                        
-                    
+                    <a href="{% url 'principal:shop' %}">Todos los articulos</a>
                 </div>
             </div>
         </div>
@@ -667,16 +657,78 @@
                 <div class="col-lg-8">
                     <div class="filter-control">
                         <ul>
-                            <li >Clothings</li>
-                            <li>HandBag</li>
-                            <li>Shoes</li>
-                            <li>Accessories</li>
+                            <li id="HombreC" class="RopaH">Clothings</li>
+                            <li id="carterajsH" class="bagH">HandBag</li>
+                            <li id="zapasjsH" class="shoeH">Shoes</li>
+                            <li id="accjsH" class="accesoryH">Accessories</li>
                         </ul>
                     </div>
-                    <div class="product-slider owl-carousel">
+                    <div id="ropaH" class="product-slider owl-carousel active">
+                        {% for i in clotheH %}
+                            <div class="product-item">
+                               
+                                <div class="pi-pic">
+                                    <img src="{{ i.image.url}}" alt="">
+                                    <div class="sale">Sale</div>
+                                    <div class="icon">
+                                        <i class="far fa-heart"></i>
+                                    </div>
+                                    <ul>
+                                        <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                        <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                        <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="pi-text">
+                                    <div class="catagory-name">Coat</div>
+                                    <a href="{% url 'principal:producto' i.id %}">
+                                        <h5>{{ i.nombre}}</h5>
+                                    </a>
+                                    <div class="product-price">
+                                        {{i.precio}}
+                                        
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            {% endfor %} 
+                    </div>
+                    <div id="carteraH" class="product-slider owl-carousel ropita">
+                        {% for i in clotheCartH %}
+                            <div class="product-item">
+                               
+                                <div class="pi-pic">
+                                    <img src="{{ i.image.url}}" alt="">
+                                    <div class="sale">Sale</div>
+                                    <div class="icon">
+                                        <i class="far fa-heart"></i>
+                                    </div>
+                                    <ul>
+                                        <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                        <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                        <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="pi-text">
+                                    <div class="catagory-name">Coat</div>
+                                    <a href="{% url 'principal:producto' i.id %}">
+                                        <h5>{{ i.nombre}}</h5>
+                                    </a>
+                                    <div class="product-price">
+                                        {{i.precio}}
+                                        
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            {% endfor %} 
+                    </div>
+                    <div id="zapatoH" class="product-slider owl-carousel ropita">
+                        {% for i in clotheZapH %}
                         <div class="product-item">
+                           
                             <div class="pi-pic">
-                                <img src="{% static 'img/products/man-1.jpg' %}" alt="">
+                                <img src="{{ i.image.url}}" alt="">
                                 <div class="sale">Sale</div>
                                 <div class="icon">
                                     <i class="far fa-heart"></i>
@@ -689,88 +741,56 @@
                             </div>
                             <div class="pi-text">
                                 <div class="catagory-name">Coat</div>
-                                <a href="#">
-                                    <h5>Pure Pineapple</h5>
+                                <a href="{% url 'principal:producto' i.id %}">
+                                    <h5>{{ i.nombre}}</h5>
                                 </a>
                                 <div class="product-price">
-                                    $14.00
-                                    <span>$35.00</span>
+                                    {{i.precio}}
+                                    
                                 </div>
                             </div>
+                            
                         </div>
-                        <div class="product-item">
-                            <div class="pi-pic">
-                                <img src="{% static 'img/products/man-2.jpg' %}" alt="">
-                                <div class="icon">
-                                    <i class="far fa-heart"></i>
-                                </div>
-                                <ul>
-                                    <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                    <li class="quick-view"><a href="#">+ Quick View</a></li>
-                                    <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="pi-text">
-                                <div class="catagory-name">Shoes</div>
-                                <a href="#">
-                                    <h5>Guangzhou sweater</h5>
-                                </a>
-                                <div class="product-price">
-                                    $13.00
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-item">
-                            <div class="pi-pic">
-                                <img src="{% static 'img/products/man-3.jpg' %}" alt="">
-                                <div class="icon">
-                                    <i class="far fa-heart"></i>
-                                </div>
-                                <ul>
-                                    <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                    <li class="quick-view"><a href="#">+ Quick View</a></li>
-                                    <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="pi-text">
-                                <div class="catagory-name">Towel</div>
-                                <a href="#">
-                                    <h5>Pure Pineapple</h5>
-                                </a>
-                                <div class="product-price">
-                                    $34.00
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-item">
-                            <div class="pi-pic">
-                                <img src="{% static 'img/products/man-4.jpg' %}" alt="">
-                                <div class="icon">
-                                    <i class="far fa-heart"></i>
-                                </div>
-                                <ul>
-                                    <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                    <li class="quick-view"><a href="#">+ Quick View</a></li>
-                                    <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="pi-text">
-                                <div class="catagory-name">Towel</div>
-                                <a href="#">
-                                    <h5>Converse Shoes</h5>
-                                </a>
-                                <div class="product-price">
-                                    $34.00
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %} 
                     </div>
+                    <div id="accesorioH" class="product-slider owl-carousel ropita">
+                        {% for i in clotheAcc %}
+                        <div class="product-item">
+                           
+                            <div class="pi-pic">
+                                <img src="{{ i.image.url}}" alt="">
+                                <div class="sale">Sale</div>
+                                <div id="favorite" class="icon">
+                                    <a href=""><i class="far fa-heart"></i></a>
+                                </div>
+                                <ul>
+                                    <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                    <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                    <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="pi-text">
+                                <div class="catagory-name">Coat</div>
+                                <a href="{% url 'principal:producto' i.id %}">
+                                    <h5>{{ i.nombre}}</h5>
+                                </a>
+                                <div class="product-price">
+                                    {{i.precio}}
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                        {% endfor %} 
+                    </div>
+                     <a href="{% url 'principal:shopH' %}">Todos los articulos</a>
                 </div>
                 {% for i in asideHom %}
                 <div class="col-lg-3 offset-lg-1">
                     <div class="product-large set-bg m-large" data-setbg="{{ i.image.url}}"> 
                         <h2>{{ i.nombre}}</h2>
                         <a href="#">{{i.frase}}</a>
+                        <p> <a href="{% url 'principal:cambiosAside' i.id %}">Cambiar</a></p>
                     </div>
                 </div>
                 {% endfor %}
@@ -1068,6 +1088,8 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="{% static 'js/artropa.js' %}"></script>
     <script src="{% static 'js/formtoogle.js' %}"></script>
     <script src="{% static 'js/otro.js' %}"></script>
+    <script src="{% static 'js/invH.js' %}"></script>
+
 
 
    
