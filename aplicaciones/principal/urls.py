@@ -5,7 +5,9 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('', inicio, name="index"),
+    path('', paginaInicio, name="index"),
+    path('own', inicio, name="own"),
+    path('inicio', inicioCostumer, name="inicio"),
     path('login/', login, name="login"),
     path('register/',register, name="register"),
     path('salir/', logout, name="salir"),

@@ -1,0 +1,509 @@
+{% extends 'inicio.html' %}
+{% load static %}
+{% load fontawesome_5 %}
+{% block body %}
+
+<header class="header-section">
+    <div class="header-top">
+        <div class="container">
+            <div class="ht-left">
+                <div class="mail-service">
+                    <i class="fas fa-envelope"></i>
+                    hello.colorlib@gmail.com
+                </div>
+                <div class="phone-service">
+                    <i class=" fa fa-phone"></i>
+                    +65 11.188.888
+                </div>
+            </div>
+
+            <div class="ht-right">
+                <a href="salir/" class="login-panel"><i class="fas fa-sign-out-alt"></i>Salir</a>
+                <a href="" class="login-panel"><i class="fa fa-user"></i>{{user.username}}</a>
+                <div class="top-social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="container">
+        <div class="inner-header">
+            <div class="row">
+                <div class="col-lg-2 col-md-2">
+                    <div class="logo">
+                        <a href="./index.html">
+                            <img src="{% static 'img/logo.png' %}" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-7 col-md-7">
+                    <div class="advanced-search">
+                        <button type="button" class="category-btn">All Categories</button>
+                        <div class="input-group">
+                            <input type="text" placeholder="What do you need?">
+                            <button type="button"><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 text-right col-md-3">
+                    <ul class="nav-right">
+                        <li class="heart-icon">
+                            <a href="#">
+                                <i class="far fa-heart"></i>
+                                <span>1</span>
+                            </a>
+                        </li>
+                        <li class="cart-icon">
+                            <a href="#">
+                                <i class="fas fa-shopping-bag"></i>
+                                <span>3</span>
+                            </a>
+                            <div class="cart-hover">
+                                <div class="select-items">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td class="si-pic"><img src="{% static 'img/select-product-1.jpg' %}"
+                                                        alt=""></td>
+                                                <td class="si-text">
+                                                    <div class="product-selected">
+                                                        <p>$60.00 x 1</p>
+                                                        <h6>Kabino Bedside Table</h6>
+                                                    </div>
+                                                </td>
+                                                <td class="si-close">
+                                                    <i class="ti-close"></i>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="si-pic"><img src="{% static 'img/select-product-2.jpg' %}"
+                                                        alt=""></td>
+                                                <td class="si-text">
+                                                    <div class="product-selected">
+                                                        <p>$60.00 x 1</p>
+                                                        <h6>Kabino Bedside Table</h6>
+                                                    </div>
+                                                </td>
+                                                <td class="si-close">
+                                                    <i class="ti-close"></i>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="select-total">
+                                    <span>total:</span>
+                                    <h5>$120.00</h5>
+                                </div>
+                                <div class="select-button">
+                                    <a href="#" class="primary-btn view-card">VIEW CARD</a>
+                                    <a href="#" class="primary-btn checkout-btn">CHECK OUT</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="cart-price">$150.00</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="nav-item">
+        <div class="container">
+            <div class="nav-depart">
+                <div class="depart-btn">
+
+                    <span>All departments</span>
+                    <ul class="depart-hover">
+                        <li class="active"><a href="#">Women’s Clothing</a></li>
+                        <li><a href="#">Men’s Clothing</a></li>
+                        <li><a href="#">tu nene te ama moto moto</a></li>
+                        <li><a href="#">Kid's Clothing</a></li>
+                        <li><a href="#">Brand Fashion</a></li>
+                        <li><a href="#">Accessories/Shoes</a></li>
+                        <li><a href="#">Luxury Brands</a></li>
+                        <li><a href="#">Brand Outdoor Apparel</a></li>
+                    </ul>
+                </div>
+            </div>
+            <nav class="nav-menu mobile-menu">
+                <ul>
+                    <li class="active"><a href="./index.html">Home</a></li>
+                    <li><a href="./shop.html">Shop</a></li>
+                    <li><a href="#">Collection</a>
+                        <ul class="dropdown">
+                            <li><a href="#">Men's</a></li>
+                            <li><a href="#">Women's</a></li>
+                            <li><a href="#">Kid's</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="./blog.html">Blog</a></li>
+                    <li><a href="./contact.html">Contact</a></li>
+                    <li><a href="#">Pages</a>
+                        <ul class="dropdown">
+                            <li><a href="./blog-details.html">Blog Details</a></li>
+                            <li><a href="./shopping-cart.html">Shopping Cart</a></li>
+                            <li><a href="./check-out.html">Checkout</a></li>
+                            <li><a href="./faq.html">Faq</a></li>
+                            <li><a href="./register.html">Register</a></li>
+                            <li><a href="./login.html">Login</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div id="mobile-menu-wrap"></div>
+        </div>
+    </div>
+</header>
+
+<section class="hero-section">
+    
+    <div class="hero-items owl-carousel">
+       
+        {% for img in images %}
+        <div class="single-hero-items set-bg" data-setbg="{{ img.image.url}}">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <span>{{img.arts}}</span>
+                        <h1>{{ img.name}}</h1>
+                        <p>{{ img.description}}</p>
+
+                        <!-- <a href="#" class="primary-btn">{{img.link}}</a> -->
+                        
+                    </div>
+                </div>
+                <div class="off-card">
+                    <h2>Sale <span>{{img.descuento}}%</span></h2>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+   
+</section>
+<div class="banner-section spad">
+        
+    <div class="container-fluid">
+       
+        <div class="row">
+            {% for ban in banners %}
+            <div class="col-lg-4">
+                <div class="single-banner">
+                    
+                    <img src=" {{ ban.image.url}}" alt="">
+                    
+                    <div class="inner-text change">
+                        <h4>{{ban.nombre}}’s</h4>
+                    </div>
+                    
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+    </div>
+</div>
+<section class="women-banner spad">
+    <div class="container-fluid">
+        <div class="row">
+            {% for asides in aside %}
+            <div class="col-lg-3">
+                
+                <div class="product-large set-bg" data-setbg="{{ asides.image.url }}">
+                    <h2>{{ asides.nombre}}</h2>
+                    <a href="#">{{asides.frase}}</a>
+                </div>
+               
+            </div>
+           
+            {% endfor %}
+            <div class="col-lg-8 offset-lg-1">
+                <div class="filter-control">
+                    <ul>
+                        <li id="ropajs" class="clothe active">Clothings</li>
+                        <li id="carterajs" class="bag">HandBag</li>
+                        <li id="zapasjs" class="shoe">Shoes</li>
+                        <li id="accjs" class="accesory">Accessories</li>
+                    </ul>
+                </div>
+               
+                <div id="ropa" class="product-slider owl-carousel">
+                    {% for i in clothe %}
+                    <div class="product-item">
+                       
+                        <div class="pi-pic">
+                            <img src="{{ i.image.url}}" alt="">
+                            <div class="sale">Sale</div>
+                            <div class="icon">
+                                <i class="far fa-heart"></i>
+                            </div>
+                            <ul>
+                                <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="pi-text">
+                            <div class="catagory-name">Coat</div>
+                            <a href="{% url 'principal:producto' i.id %}">
+                                <h5>{{ i.nombre}}</h5>
+                            </a>
+                            <div class="product-price">
+                                {{i.precio}}
+                                
+                            </div>
+                        </div>
+                        
+                    </div>
+                    {% endfor %} 
+                </div>
+                
+                    <div id="cartera" class="product-slider owl-carousel ropita">
+                        {% for i in clotheCart %}
+                        <div class="product-item">
+                           
+                            <div class="pi-pic">
+                                <img src="{{ i.image.url}}" alt="">
+                                <div class="sale">Sale</div>
+                                <div class="icon">
+                                    <i class="far fa-heart"></i>
+                                </div>
+                                <ul>
+                                    <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                    <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                    <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="pi-text">
+                                <div class="catagory-name">Coat</div>
+                                <a href="{% url 'principal:producto' i.id %}">
+                                    <h5>{{ i.nombre}}</h5>
+                                </a>
+                                <div class="product-price">
+                                    {{i.precio}}
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                        {% endfor %} 
+                    </div>
+                   
+                    <div id="zapato" class="product-slider owl-carousel ropita">
+                        {% for i in clotheZap %}
+                        <div class="product-item">
+                           
+                            <div class="pi-pic">
+                                <img src="{{ i.image.url}}" alt="">
+                                <div class="sale">Sale</div>
+                                <div class="icon">
+                                    <i class="far fa-heart"></i>
+                                </div>
+                                <ul>
+                                    <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                    <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                    <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="pi-text">
+                                <div class="catagory-name">Coat</div>
+                                <a href="{% url 'principal:producto' i.id %}">
+                                    <h5>{{ i.nombre}}</h5>
+                                </a>
+                                <div class="product-price">
+                                    {{i.precio}}
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                        {% endfor %} 
+                    </div>
+                   
+                    <div id="accesorio" class="product-slider owl-carousel ropita">
+                        {% for i in clotheAcc %}
+                        <div class="product-item">
+                           
+                            <div class="pi-pic">
+                                <img src="{{ i.image.url}}" alt="">
+                                <div class="sale">Sale</div>
+                                <div class="icon">
+                                    <i class="far fa-heart"></i>
+                                </div>
+                                <ul>
+                                    <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                    <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                    <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="pi-text">
+                                <div class="catagory-name">Coat</div>
+                                <a href="{% url 'principal:producto' i.id %}">
+                                    <h5>{{ i.nombre}}</h5>
+                                </a>
+                                <div class="product-price">
+                                    {{i.precio}}
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                        {% endfor %} 
+                    </div>
+                <a href="{% url 'principal:shop' %}">Todos los articulos</a>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="man-banner spad">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="filter-control">
+                    <ul>
+                        <li id="HombreC" class="RopaH">Clothings</li>
+                        <li id="carterajsH" class="bagH">HandBag</li>
+                        <li id="zapasjsH" class="shoeH">Shoes</li>
+                        <li id="accjsH" class="accesoryH">Accessories</li>
+                    </ul>
+                </div>
+                <div id="ropaH" class="product-slider owl-carousel active">
+                    {% for i in clotheH %}
+                        <div class="product-item">
+                           
+                            <div class="pi-pic">
+                                <img src="{{ i.image.url}}" alt="">
+                                <div class="sale">Sale</div>
+                                <div class="icon">
+                                    <i class="far fa-heart"></i>
+                                </div>
+                                <ul>
+                                    <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                    <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                    <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="pi-text">
+                                <div class="catagory-name">Coat</div>
+                                <a href="{% url 'principal:producto' i.id %}">
+                                    <h5>{{ i.nombre}}</h5>
+                                </a>
+                                <div class="product-price">
+                                    {{i.precio}}
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                        {% endfor %} 
+                </div>
+                <div id="carteraH" class="product-slider owl-carousel ropita">
+                    {% for i in clotheCartH %}
+                        <div class="product-item">
+                           
+                            <div class="pi-pic">
+                                <img src="{{ i.image.url}}" alt="">
+                                <div class="sale">Sale</div>
+                                <div class="icon">
+                                    <i class="far fa-heart"></i>
+                                </div>
+                                <ul>
+                                    <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                    <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                    <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="pi-text">
+                                <div class="catagory-name">Coat</div>
+                                <a href="{% url 'principal:producto' i.id %}">
+                                    <h5>{{ i.nombre}}</h5>
+                                </a>
+                                <div class="product-price">
+                                    {{i.precio}}
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                        {% endfor %} 
+                </div>
+                <div id="zapatoH" class="product-slider owl-carousel ropita">
+                    {% for i in clotheZapH %}
+                    <div class="product-item">
+                       
+                        <div class="pi-pic">
+                            <img src="{{ i.image.url}}" alt="">
+                            <div class="sale">Sale</div>
+                            <div class="icon">
+                                <i class="far fa-heart"></i>
+                            </div>
+                            <ul>
+                                <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="pi-text">
+                            <div class="catagory-name">Coat</div>
+                            <a href="{% url 'principal:producto' i.id %}">
+                                <h5>{{ i.nombre}}</h5>
+                            </a>
+                            <div class="product-price">
+                                {{i.precio}}
+                                
+                            </div>
+                        </div>
+                        
+                    </div>
+                    {% endfor %} 
+                </div>
+                <div id="accesorioH" class="product-slider owl-carousel ropita">
+                    {% for i in clotheAcc %}
+                    <div class="product-item">
+                       
+                        <div class="pi-pic">
+                            <img src="{{ i.image.url}}" alt="">
+                            <div class="sale">Sale</div>
+                            <div id="favorite" class="icon">
+                                <a href=""><i class="far fa-heart"></i></a>
+                            </div>
+                            <ul>
+                                <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="pi-text">
+                            <div class="catagory-name">Coat</div>
+                            <a href="{% url 'principal:producto' i.id %}">
+                                <h5>{{ i.nombre}}</h5>
+                            </a>
+                            <div class="product-price">
+                                {{i.precio}}
+                                
+                            </div>
+                        </div>
+                        
+                    </div>
+                    {% endfor %} 
+                </div>
+                 <a href="{% url 'principal:shopH' %}">Todos los articulos</a>
+            </div>
+            {% for i in asideHom %}
+            <div class="col-lg-3 offset-lg-1">
+                <div class="product-large set-bg m-large" data-setbg="{{ i.image.url}}"> 
+                    <h2>{{ i.nombre}}</h2>
+                    <a href="#">{{i.frase}}</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock body %}

@@ -377,11 +377,11 @@ ol {
 
 .header-top .ht-right .login-panel {
 	float: right;
+	margin: auto;
 	font-size: 14px;
 	color: #252525;
 	display: inline-block;
 	padding-left: 20px;
-	border-left: 1px solid #e5e5e5;
 	padding-top: 18px;
 	padding-bottom: 15px;
 }
@@ -4325,3 +4325,10 @@ ol {
 #form-Hero{
 	display: none;
 }
+
+.change{
+    color: black;
+    font-weight: bold;
+    margin-left: 5px;
+}
+

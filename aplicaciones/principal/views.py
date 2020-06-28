@@ -10,6 +10,65 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 
 # Create your views here.
 
+def paginaInicio(request):
+    images = HeroSeccion.objects.all()
+    banners = BannerSection.objects.all()
+    aside = AsideImage.objects.filter(publico = "Mujeres")
+    asideHom = AsideImage.objects.filter(publico = "Hombres")
+    clothe = Clothing.objects.filter(cat="Ropa", publico="Mujeres")
+    clotheCart = Clothing.objects.filter(cat="Carteras", publico="Mujeres")
+    clotheZap = Clothing.objects.filter(cat="Zapatos", publico="Mujeres")
+    clotheAcc = Clothing.objects.filter(cat="Accesorios", publico="Mujeres")
+    clotheH = Clothing.objects.filter(cat="Ropa", publico="Hombres")
+    clotheCartH = Clothing.objects.filter(cat="Carteras", publico="Hombres")
+    clotheZapH = Clothing.objects.filter(cat="Zapatos", publico="Hombres")
+    clotheAccH = Clothing.objects.filter(cat="Accesorios", publico="Hombres")
+    contexto={
+        'images':images,
+        'banner':banner,
+        'banners': banners,
+        'aside':aside,
+        'clothe': clothe,
+        'asideHom':asideHom,
+        'clotheCart':clotheCart,
+        'clotheZap':clotheZap,
+        'clotheAcc':clotheAcc,
+        'clotheH': clotheH,
+        'clotheCartH':clotheCartH,
+        'clotheZapH':clotheZapH,
+        'clotheAccH':clotheAccH,
+        }
+    return render(request, 'inicio.html', contexto )
+
+def inicioCostumer(request):
+    images = HeroSeccion.objects.all()
+    banners = BannerSection.objects.all()
+    aside = AsideImage.objects.filter(publico = "Mujeres")
+    asideHom = AsideImage.objects.filter(publico = "Hombres")
+    clothe = Clothing.objects.filter(cat="Ropa", publico="Mujeres")
+    clotheCart = Clothing.objects.filter(cat="Carteras", publico="Mujeres")
+    clotheZap = Clothing.objects.filter(cat="Zapatos", publico="Mujeres")
+    clotheAcc = Clothing.objects.filter(cat="Accesorios", publico="Mujeres")
+    clotheH = Clothing.objects.filter(cat="Ropa", publico="Hombres")
+    clotheCartH = Clothing.objects.filter(cat="Carteras", publico="Hombres")
+    clotheZapH = Clothing.objects.filter(cat="Zapatos", publico="Hombres")
+    clotheAccH = Clothing.objects.filter(cat="Accesorios", publico="Hombres")
+    contexto={
+        'images':images,
+        'banner':banner,
+        'banners': banners,
+        'aside':aside,
+        'clothe': clothe,
+        'asideHom':asideHom,
+        'clotheCart':clotheCart,
+        'clotheZap':clotheZap,
+        'clotheAcc':clotheAcc,
+        'clotheH': clotheH,
+        'clotheCartH':clotheCartH,
+        'clotheZapH':clotheZapH,
+        'clotheAccH':clotheAccH,
+        }
+    return render(request, 'indexcostumer.html', contexto )
 
 def inicio(request):
     if request.method =="GET":
@@ -56,7 +115,8 @@ def inicio(request):
             'clotheZapH':clotheZapH,
             'clotheAccH':clotheAccH,
             'likes':likes
-         }
+        }
+         
     if request.method == "POST": 
         form = Hero(request.POST or None, request.FILES or None)
         banner= Banner(request.POST or None, request.FILES or None)
@@ -74,22 +134,22 @@ def inicio(request):
         }
         if publico.is_valid():
             publico.save()
-            return redirect('principal:index')
+            return redirect('principal:inicio')
         if aside.is_valid():
             aside.save()
-            return redirect('principal:index')
+            return redirect('principal:inicio')
         if cate.is_valid():
             cate.save()
-            return redirect('principal:index')
+            return redirect('principal:inicio')
         if cat.is_valid():
             cat.save()
-            return redirect('principal:index') 
+            return redirect('principal:inicio') 
         if form.is_valid():
             form.save()
-            return redirect('principal:index')
+            return redirect('principal:inicio')
         if banner.is_valid():
             banner.save()
-            return redirect('principal:index')
+            return redirect('principal:inicio')
         
         
     return render(request, 'index.html', contexto )
@@ -129,13 +189,16 @@ def login(request):
 
             # Verificamos las credenciales del usuario
             user = authenticate(username=username, password=password)
-
             # Si existe un usuario con ese nombre y contraseña
             if user is not None:
                 # Hacemos el login manualmente
-                do_login(request, user)
+                if user.is_staff:
+                    do_login(request, user)
                 # Y le redireccionamos a la portada
-                return redirect('principal:index')
+                    return redirect('principal:own')
+                else:
+                    do_login(request, user)
+                    return redirect('principal:inicio')
 
     # Si llegamos al final renderizamos el formulario
     return render(request, 'login.html',{'form': form} )

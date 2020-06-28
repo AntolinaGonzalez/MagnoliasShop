@@ -15,6 +15,7 @@ class Usuario(models.Model):
     def __str__(self):              
         return self.name
 
+
 class HeroSeccion(models.Model):
     id = models.AutoField(primary_key = True)
     image = models.ImageField( null=True, blank=True)
