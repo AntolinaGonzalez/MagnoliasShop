@@ -37,7 +37,7 @@
 </head>
 
 <body>
-    {% block body %}
+   
       <!-- Page Preloder -->
       <div id="preloder">
         <div class="loader"></div>
@@ -59,11 +59,16 @@
                 </div>
                 
                 <div class="ht-right">
-                {% if user.is_autenticate %}
+                {% if user.is_superuser %}
+                <a href="{% url 'principal:salir' %}" class="login-panel"><i class="fas fa-sign-out-alt"></i>Salir</a>
+                <a href="" class="login-panel"><i class="fa fa-user"></i>{{user.username}}</a>
+                {% else %}
+                {% if user.is_authenticated %}
                 <a href="salir/" class="login-panel"><i class="fas fa-sign-out-alt"></i>Salir</a>
                 <a href="" class="login-panel"><i class="fa fa-user"></i>{{user.username}}</a>
                 {% else %}
                 <a href="{% url 'principal:login' %}" class="login-panel"><i class="fa fa-user"></i>Login</a>
+                {% endif %}
                 {% endif %}
                     <div class="top-social">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -204,7 +209,7 @@
     </header>
 
     <!-- Header End -->
-
+    {% block body %}
    
     
     

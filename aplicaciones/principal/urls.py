@@ -6,7 +6,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('', paginaInicio, name="index"),
-    path('own', inicio, name="own"),
+    path('own/', inicioOwner, name="own"),
     path('inicio', inicioCostumer, name="inicio"),
     path('login/', login, name="login"),
     path('register/',register, name="register"),

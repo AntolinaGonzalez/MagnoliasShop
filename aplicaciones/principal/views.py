@@ -6,9 +6,13 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as do_login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import logout as do_logout
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 
 # Create your views here.
+def autenticacion(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied()
 
 def paginaInicio(request):
     images = HeroSeccion.objects.all()
@@ -38,6 +42,14 @@ def paginaInicio(request):
         'clotheZapH':clotheZapH,
         'clotheAccH':clotheAccH,
         }
+    if request.user.is_superuser:
+        return redirect('principal:own')
+    else:
+        if request.user.is_authenticated:
+            return render(request, 'indexcostumer.html', contexto )
+        else:
+            return render(request, 'inicio.html', contexto )
+    
     return render(request, 'inicio.html', contexto )
 
 def inicioCostumer(request):
@@ -69,8 +81,31 @@ def inicioCostumer(request):
         'clotheAccH':clotheAccH,
         }
     return render(request, 'indexcostumer.html', contexto )
+def producto(request,id):
+    prod= Clothing.objects.filter(id = id)
+    contexto ={
+        'prod':prod
+    }
+    return render(request, 'product.html', contexto)
 
-def inicio(request):
+def shopM(request):
+    todos= Clothing.objects.filter(publico = "Mujeres")
+    contexto={
+        'todos':todos
+    }
+    return render(request, 'shop.html', contexto)
+
+def shopH(request):
+    todos= Clothing.objects.filter(publico = "Hombres")
+    contexto={
+        'todos':todos
+    }
+    return render(request, 'shop.html', contexto)
+
+#Las siguientes funciones necesitan permisos de superuser
+
+def inicioOwner(request):
+
     if request.method =="GET":
         images = HeroSeccion.objects.all()
         banners = BannerSection.objects.all()
@@ -115,8 +150,8 @@ def inicio(request):
             'clotheZapH':clotheZapH,
             'clotheAccH':clotheAccH,
             'likes':likes
-        }
-         
+            }
+            
     if request.method == "POST": 
         form = Hero(request.POST or None, request.FILES or None)
         banner= Banner(request.POST or None, request.FILES or None)
@@ -134,31 +169,28 @@ def inicio(request):
         }
         if publico.is_valid():
             publico.save()
-            return redirect('principal:inicio')
+            return redirect('principal:own')
         if aside.is_valid():
             aside.save()
-            return redirect('principal:inicio')
+            return redirect('principal:own')
         if cate.is_valid():
             cate.save()
-            return redirect('principal:inicio')
+            return redirect('principal:own')
         if cat.is_valid():
             cat.save()
-            return redirect('principal:inicio') 
+            return redirect('principal:own') 
         if form.is_valid():
             form.save()
-            return redirect('principal:inicio')
+            return redirect('principal:own')
         if banner.is_valid():
             banner.save()
-            return redirect('principal:inicio')
-        
-        
+            return redirect('principal:own')   
     return render(request, 'index.html', contexto )
 
 
 
-
-
 def banner(request):
+    autenticacion()
     if request.method=="GET":
         form= Banner()
         contexto={
@@ -176,6 +208,10 @@ def banner(request):
 
 
 def login(request):
+    if request.user.is_superuser:
+        return redirect('principal:own')
+    if request.user.is_authenticated:
+        return redirect('principal:inicio')
     # Creamos el formulario de autenticación vacío
     form = AuthenticationForm()
     if request.method == "POST":
@@ -211,7 +247,6 @@ def logout(request):
     
 def register(request):
     if request.method == 'GET':
-
     # Creamos el formulario de autenticación vacío
         form = UsuarioForm()
     if request.method == "POST":
@@ -235,6 +270,7 @@ def register(request):
     return render(request, "register.html", {'form': form})
 
 def cambios(request,id):
+    autenticacion()
     img= HeroSeccion.objects.get(id = id)
     if request.method == 'GET':
         form = Hero(instance = img)
@@ -252,6 +288,7 @@ def cambios(request,id):
     return render(request,'changehero.html',contexto)
 
 def cambiosAside(request,id):
+    autenticacion()
     aside= AsideImage.objects.get(id = id)
     if request.method == 'GET':
         form = Aside(instance = aside)
@@ -269,6 +306,7 @@ def cambiosAside(request,id):
     return render(request,'aside.html',contexto)
 
 def cambiosbanner(request,id):
+    autenticacion()
     ban=BannerSection.objects.get(id = id)
     if request.method == "GET":
         form = Banner(instance = ban)
@@ -283,46 +321,32 @@ def cambiosbanner(request,id):
         if form.is_valid():
             form.save()
             return redirect('principal:index')
+    autenticacion(request)
     return render(request,'banner.html',contexto)
 
 
 def eliminarPromo(request,id):
+    autenticacion()
     img= HeroSeccion.objects.get(id=id)
     img.delete()
     return redirect('principal:index')
 
 def eliminarBanner(request,id):
+    autenticacion()
     ban= BannerSection.objects.get(id = id)
     ban.delete()
     return redirect('principal:index')
 
 def eliminarCategoria(request,name):
+    autenticacion()
     cat= Category.objects.get(name=name)
     cat.delete()
     return redirect('principal:index')
 
 def eliminarPublico(request, publico):
+    autenticacion()
     pub= Persona.objects.get(publico = publico)
     pub.delete()
     return redirect('principal:index')
 
-def producto(request,id):
-    prod= Clothing.objects.filter(id = id)
-    contexto ={
-        'prod':prod
-    }
-    return render(request, 'product.html', contexto)
 
-def shopM(request):
-    todos= Clothing.objects.filter(publico = "Mujeres")
-    contexto={
-        'todos':todos
-    }
-    return render(request, 'shop.html', contexto)
-
-def shopH(request):
-    todos= Clothing.objects.filter(publico = "Hombres")
-    contexto={
-        'todos':todos
-    }
-    return render(request, 'shop.html', contexto)
