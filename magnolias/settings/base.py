@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'fontawesome_5',
     'aplicaciones.principal',
     'widget_tweaks',
+    'aplicaciones.favorites',
 ]
 
 MIDDLEWARE = [

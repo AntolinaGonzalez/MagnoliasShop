@@ -3,6 +3,8 @@ from django.conf.urls import url
 from .views import *
 from django.conf.urls.static import static
 from django.conf import settings
+from aplicaciones.favorites import views
+from aplicaciones.favorites.views import marcador
 
 urlpatterns = [
     path('', paginaInicio, name="index"),
@@ -21,5 +23,6 @@ urlpatterns = [
     path('productos/<int:id>/', producto, name="producto"),
     path('shop/', shopM, name="shop"),
     path('shopH/', shopH, name="shopH"),
+    url(r'^marcar/favorito/(?P<pk>\d+)/marcador/$', marcador, name="marcar")
 
 ]+ static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)

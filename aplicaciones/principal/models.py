@@ -45,7 +45,6 @@ class Category(models.Model):
 
 
 class Clothing(models.Model):
-    #Aid= models.ForeignKey(AsideImage,default=1, verbose_name="Aside", on_delete=models.SET_DEFAULT)
     id = models.AutoField(primary_key = True)
     cat= models.ForeignKey(Category, on_delete=models.CASCADE)
     nombre= models.CharField(max_length=50)
@@ -53,5 +52,6 @@ class Clothing(models.Model):
     image = models.ImageField(null=True, blank=True)
     publico = models.ForeignKey(Persona, on_delete=models.CASCADE)
     cantidad = models.IntegerField()
-    likes = models.ManyToManyField(User, blank=True, related_name="favorite")
 
+    def __unicode__(self):
+        return self.nombre

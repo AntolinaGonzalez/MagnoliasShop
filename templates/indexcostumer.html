@@ -73,7 +73,9 @@
                         <li id="accjs" class="accesory">Accessories</li>
                     </ul>
                 </div>
-               
+               <form action="" id="form-fav" method="POST">
+
+                {% csrf_token %}
                 <div id="ropa" class="product-slider owl-carousel">
                     {% for i in clothe %}
                     <div class="product-item">
@@ -81,9 +83,13 @@
                         <div class="pi-pic">
                             <img src="{{ i.image.url}}" alt="">
                             <div class="sale">Sale</div>
-                            <div class="icon">
-                                <i class="far fa-heart"></i>
-                            </div>
+                            
+                                
+                                <div class="icon">
+                                    <i id="likes" class="fav far fa-heart" data-type="favorito" data-id="{{i.id }}" data-action="marcador"></i>
+                                </div>
+                            
+                           
                             <ul>
                                 <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
                                 <li class="quick-view"><a href="#">+ Quick View</a></li>
@@ -104,6 +110,8 @@
                     </div>
                     {% endfor %} 
                 </div>
+               </form>
+                
                 
                     <div id="cartera" class="product-slider owl-carousel ropita">
                         {% for i in clotheCart %}
