@@ -4,7 +4,7 @@ from aplicaciones.principal.models import Clothing
 # Create your models here.
 
 class BaseFav(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="favoritos")
 
     class Meta:
         abstract = True
@@ -13,4 +13,4 @@ class BaseFav(models.Model):
         return self.user.username
 
 class Favorito(BaseFav): 
-    objecto = models.ForeignKey(Clothing,on_delete=models.CASCADE )
+    objecto = models.ForeignKey(Clothing,on_delete=models.CASCADE, related_name="favoritos" )

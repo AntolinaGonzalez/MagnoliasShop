@@ -19,6 +19,7 @@ def marcador(request,pk):
     if not created:
         favoritos.delete()
         print("eliminado")
+
     if created:
         print("creado")
 
@@ -26,3 +27,4 @@ def marcador(request,pk):
         json.dumps(datos),
         content_type = 'aplication/json'
     )
+

@@ -4,10 +4,12 @@ from .forms import UsuarioForm, Hero, Banner, Aside, Clothes, Publico, Cat, Publ
 from .models import HeroSeccion, BannerSection, AsideImage, Clothing, Persona, Category, Persona
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as do_login
+from django.db.models import Count, F
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import logout as do_logout
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, HttpResponseRedirect, Http404
+from aplicaciones.favorites.models import Favorito
 import json 
 
 # Create your views here.
@@ -54,6 +56,8 @@ def paginaInicio(request):
     return render(request, 'inicio.html', contexto )
 
 def inicioCostumer(request):
+    favorites= Favorito.objects.filter(user=request.user)
+    cantFav= len(Favorito.objects.filter(user=request.user))
     images = HeroSeccion.objects.all()
     banners = BannerSection.objects.all()
     aside = AsideImage.objects.filter(publico = "Mujeres")
@@ -80,6 +84,8 @@ def inicioCostumer(request):
         'clotheCartH':clotheCartH,
         'clotheZapH':clotheZapH,
         'clotheAccH':clotheAccH,
+        'favorites': favorites,
+        'cantFav': cantFav
         }
     return render(request, 'indexcostumer.html', contexto )
 def producto(request,id):
@@ -108,6 +114,8 @@ def shopH(request):
 def inicioOwner(request):
 
     if request.method =="GET":
+        favorites= Favorito.objects.filter(user=request.user)
+        cantFav= len(Favorito.objects.filter(user=request.user))
         images = HeroSeccion.objects.all()
         banners = BannerSection.objects.all()
         aside = AsideImage.objects.filter(publico = "Mujeres")
@@ -150,7 +158,9 @@ def inicioOwner(request):
             'clotheCartH':clotheCartH,
             'clotheZapH':clotheZapH,
             'clotheAccH':clotheAccH,
-            'likes':likes
+            'likes':likes,
+            'favorites': favorites,
+            'cantFav': cantFav
             }
             
     if request.method == "POST": 

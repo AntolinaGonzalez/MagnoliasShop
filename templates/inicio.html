@@ -101,11 +101,39 @@
                     </div>
                     <div class="col-lg-3 text-right col-md-3">
                         <ul class="nav-right">
-                            <li class="heart-icon">
+                        
+                            <li class="cart-icon">
                                 <a href="#">
                                     <i class="far fa-heart"></i>
-                                    <span>1</span>
+                                    <span>{{cantFav}}</span>
+                                    <!-- se tendria que actualizar solo, arreglar -->
                                 </a>
+                                <div class="cart-hover">
+                                    <div class="select-items">
+                                        <table>
+                                            <tbody>
+                                                {% for i in favorites %}
+                                                {% if user == i.user %}
+                                                <tr>
+                                                    <td class="si-pic"><img src="{{i.objecto.image.url}}" alt="" width="40%"></td>
+                                                    <td class="si-text">
+                                                        <div class="product-selected">
+                                                            <p>{{i.objecto.precio}}</p>
+                                                            <h6>{{i.objecto.nombre}}</h6>
+                                                        </div>
+                                                    </td>
+                                                    <td class="si-close">
+                                                        <i class="ti-close"></i>
+                                                    </td>
+                                                </tr>
+                                                {% endif %}
+                                                
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                </div>
                             </li>
                             <li class="cart-icon">
                                 <a href="#">
@@ -116,11 +144,12 @@
                                     <div class="select-items">
                                         <table>
                                             <tbody>
+                                               
                                                 <tr>
                                                     <td class="si-pic"><img src="{% static 'img/select-product-1.jpg' %}" alt=""></td>
                                                     <td class="si-text">
                                                         <div class="product-selected">
-                                                            <p>$60.00 x 1</p>
+                                                            <p>precio</p>
                                                             <h6>Kabino Bedside Table</h6>
                                                         </div>
                                                     </td>
@@ -128,6 +157,7 @@
                                                         <i class="ti-close"></i>
                                                     </td>
                                                 </tr>
+                                                
                                                 <tr>
                                                     <td class="si-pic"><img src="{% static 'img/select-product-2.jpg' %}" alt=""></td>
                                                     <td class="si-text">
@@ -140,6 +170,7 @@
                                                         <i class="ti-close"></i>
                                                     </td>
                                                 </tr>
+                                               
                                             </tbody>
                                         </table>
                                     </div>
