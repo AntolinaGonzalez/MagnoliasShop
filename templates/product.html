@@ -148,13 +148,13 @@
                         </div>
                     </div>
                 </div>
-                {% for i in prod %}
+              
                 <div class="col-lg-9">
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="product-pic-zoom">
                                 
-                                <img class="product-big-img" src="{{ i.image.url }}" alt="">
+                                <img class="product-big-img" src="{{ object.image.url }}" alt="">
                                 <div class="zoom-icon">
                                     <i class="fa fa-search-plus"></i>
                                 </div>
@@ -177,7 +177,7 @@
                             <div class="product-details">
                                 <div class="pd-title">
                                     <span>oranges</span>
-                                    <h3>{{i.nombre}}</h3>
+                                    <h3>{{object.nombre}}</h3>
                                     <a href="#" class="heart-icon"><i class="icon_heart_alt"></i></a>
                                 </div>
                                 <div class="pd-rating">
@@ -191,7 +191,7 @@
                                 <div class="pd-desc">
                                     <p>Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor sum dolor
                                         sit amet, consectetur adipisicing elit, sed do mod tempor</p>
-                                    <h4>{{i.precio}} <span>629.99</span></h4>
+                                    <h4>{{object.precio}} <span>629.99</span></h4>
                                 </div>
                                 <div class="pd-color">
                                     <h6>Color</h6>
@@ -231,11 +231,19 @@
                                 <div class="quantity">
                                     <div class="pro-qty">
                                         <input type="text" value="1">
+        
                                     </div>
-                                    <a href="#" class="primary-btn pd-cart">Add To Cart</a>
+                                    <a href="{{ object.get_addToCar_url }}" class="btn btn-primary pd-cart">Add To Cart</a>
+                                    <a href="{{ object.get_removeFromCar_url }}" class="btn btn-danger pd-cart">Remove</a>
+                                   
+                                </div>
+                                <div class="quantity">
+                                    
+                                   
+                                    
                                 </div>
                                 <ul class="pd-tags">
-                                    <li><span>CATEGORIES </span> {{i.cat.name}}</li>
+                                    <li><span>CATEGORIES </span> {{object.cat.name}}</li>
                                     
                                 </ul>
                                 <div class="pd-share">
@@ -415,7 +423,7 @@
                         </div>
                     </div>
                 </div>
-                {% endfor %}
+               
             </div>
         </div>
     </section>

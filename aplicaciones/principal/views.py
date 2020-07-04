@@ -1,15 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django import forms
 from .forms import UsuarioForm, Hero, Banner, Aside, Clothes, Publico, Cat, Publico
-from .models import HeroSeccion, BannerSection, AsideImage, Clothing, Persona, Category, Persona
+from .models import *
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as do_login
+from django.contrib import messages
 from django.db.models import Count, F
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import logout as do_logout
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from aplicaciones.favorites.models import Favorito
+from django.views.generic import ListView, DetailView, View
 import json 
 
 # Create your views here.
@@ -88,27 +90,97 @@ def inicioCostumer(request):
         'cantFav': cantFav
         }
     return render(request, 'indexcostumer.html', contexto )
-def producto(request,id):
-    prod= Clothing.objects.filter(id = id)
-    contexto ={
-        'prod':prod
-    }
-    return render(request, 'product.html', contexto)
 
-def shopM(request):
-    todos= Clothing.objects.filter(publico = "Mujeres")
-    contexto={
-        'todos':todos
-    }
-    return render(request, 'shop.html', contexto)
 
-def shopH(request):
-    todos= Clothing.objects.filter(publico = "Hombres")
-    contexto={
-        'todos':todos
-    }
-    return render(request, 'shop.html', contexto)
+class HomeView(ListView):
+    queryset= Clothing.objects.filter(publico = "Mujeres")
+    paginate_by=6
+    template_name = 'shop.html'
 
+class HomeViewMan(ListView):
+    queryset= Clothing.objects.filter(publico = "Hombres")
+    paginate_by=3
+    template_name = 'shop.html'
+    
+class ProductView(DetailView):
+    model = Clothing
+    template_name = 'product.html'
+
+class OrderSummary(View):
+    def get(self, *args, **kwargs):
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            contexto ={
+                'order': order
+            }
+            return render(self.request, 'shopping-cart.html', contexto)
+        except ObjectDoesNotExist:
+            messages.error(self.request, 'Error')
+            return redirect('principal:HomeView')
+        
+
+
+def addToCart(request,pk):
+    item = get_object_or_404(Clothing, pk=pk)
+    order_item, created = OrderItem.objects.get_or_create(item=item, user=request.user, ordered=False)
+    order_qs= Order.objects.filter(user=request.user, ordered=False)
+    if order_qs.exists() :
+        order= order_qs[0]
+
+        if order.items.filter(item__id=item.id).exists():
+            order_item.quantity += 1
+            order_item.save()
+            messages.info(request, 'Your item was updated')
+            return redirect('principal:OrderSummary')
+        else:
+            messages.info(request, 'Your item was added')
+            order.items.add(order_item)
+    else:
+        order= Order.objects.create(user=request.user)
+        order.items.add(order_item)
+    return redirect('principal:producto', pk=pk)
+
+def removeFromCart(request,pk):
+    item = get_object_or_404(Clothing, pk=pk)
+    order_qs= Order.objects.filter(user=request.user, ordered=False)
+    if order_qs.exists() :
+        order= order_qs[0]
+
+        if order.items.filter(item__id=item.id).exists():
+            order_item = OrderItem.objects.filter(item=item, user=request.user, ordered=False)[0]
+            order.items.remove(order_item)
+            messages.info(request, 'Your item was removed')
+            return redirect('principal:OrderSummary')
+        else:
+            messages.info(request, 'This item was not in your cart')
+            return redirect('principal:producto', pk=pk)
+    else:
+        messages.info(request, 'You do not have an active order')
+        return redirect('principal:producto', pk=pk)
+    return redirect('principal:producto', pk=pk)
+
+def removeItemFromCart(request,pk):
+    item = get_object_or_404(Clothing, pk=pk)
+    order_qs= Order.objects.filter(user=request.user, ordered=False)
+    if order_qs.exists() :
+        order= order_qs[0]
+
+        if order.items.filter(item__id=item.id).exists():
+            order_item = OrderItem.objects.filter(item=item, user=request.user, ordered=False)[0]
+            if order_item.quantity > 1:
+                order_item.quantity -= 1
+                order_item.save()
+            else: 
+                order.items.remove(order_item)
+            
+            return redirect('principal:OrderSummary')
+        else:
+            messages.info(request, 'This item was not in your cart')
+            return redirect('principal:producto', pk=pk)
+    else:
+        messages.info(request, 'You do not have an active order')
+        return redirect('principal:producto', pk=pk)
+    return redirect('principal:producto', pk=pk)
 #Las siguientes funciones necesitan permisos de superuser
 
 def inicioOwner(request):

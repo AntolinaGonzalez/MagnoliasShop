@@ -20,9 +20,15 @@ urlpatterns = [
     path('eliminarBanner/<int:id>/', eliminarBanner, name="eliminarBanner"),
     path('eliminarCat/<str:name>/', eliminarCategoria, name="eliminarCat"),
     path('eliminarPublico/<str:publico>/', eliminarPublico, name="eliminarPublico"),
-    path('productos/<int:id>/', producto, name="producto"),
-    path('shop/', shopM, name="shop"),
-    path('shopH/', shopH, name="shopH"),
-    url(r'^marcar/favorito/(?P<pk>\d+)/marcador/$', marcador, name="marcar")
+    path('producto/<pk>/', ProductView.as_view(), name="producto"),
+    path('shop/', HomeView.as_view(), name="shop"),
+    path('shopH/', HomeViewMan.as_view(), name="shopH"),
+    url(r'^marcar/favorito/(?P<pk>\d+)/marcador/$', marcador, name="marcar"),
+    path('addToCart/<pk>/', addToCart, name="addToCart"),
+    path('OrderSummary/', OrderSummary.as_view(), name="OrderSummary"),
+    path('removeFromCart/<pk>/', removeFromCart, name="removeFromCart"),
+    path('removeItem/<pk>/', removeItemFromCart, name="removeItem")
+
+    
 
 ]+ static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)

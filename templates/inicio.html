@@ -1,5 +1,6 @@
 {% load static %}
 {% load fontawesome_5 %}
+{% load carTemplateTag %}
 <!DOCTYPE html>
 <html lang="es">
 
@@ -70,7 +71,7 @@
                 {% endif %}
                 {% endif %}
                     <div class="top-social">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.facebook.com/?stype=lo&jlou=AfeovOEmcD5kZ9dngAoTm4t1mhxG9Jfv3p9KgN0CwLQbmE_F-I2lY-bkycvliU9LcPW7RoH45k1_RuDNcT5xTe-O5YeGlqzN58yvubzWsaxEsA&smuh=42353&lh=Ac--jLCRGI77c4hK"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
                         <a href="#"><i class="fab fa-linkedin-in"></i></a>
                         
@@ -80,6 +81,18 @@
                
             </div>
         </div>
+        <div class="mt-5 pt-4">
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                {% endfor %}
+            {% endif %}
+            </div>
         <div class="container">
             <div class="inner-header">
                 <div class="row">
@@ -105,7 +118,9 @@
                             <li class="cart-icon">
                                 <a href="#">
                                     <i class="far fa-heart"></i>
+                                    {% if cantFav > 0 %}
                                     <span>{{cantFav}}</span>
+                                    {% endif %}
                                     <!-- se tendria que actualizar solo, arreglar -->
                                 </a>
                                 <div class="cart-hover">
@@ -136,9 +151,9 @@
                                 </div>
                             </li>
                             <li class="cart-icon">
-                                <a href="#">
+                                <a href="{% url 'principal:OrderSummary' %}">
                                     <i class="fas fa-shopping-bag"></i>
-                                    <span>3</span>
+                                    <span>{{ request.user|cartItem}}</span>
                                 </a>
                                 <div class="cart-hover">
                                     <div class="select-items">
@@ -338,13 +353,13 @@
                                 </div>
                                 <ul>
                                     <li class="w-icon active"><a href="#"></i></a></li>
-                                    <li class="quick-view"><a href="{% url 'principal:producto' i.id %}">+ Quick View</a></li>
+                                    <li class="quick-view"><a href="{{ i.get_absolute_url}}">+ Quick View</a></li>
                                     <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
                                 </ul>
                             </div>
                             <div class="pi-text">
                                 <div class="catagory-name">Coat</div>
-                                <a href="{% url 'principal:producto' i.id %}">
+                                <a href="{{ i.get_absolute_url}}">
                                     <h5>{{ i.nombre}}</h5>
                                 </a>
                                 <div class="product-price">

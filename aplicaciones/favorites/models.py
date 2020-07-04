@@ -14,3 +14,4 @@ class BaseFav(models.Model):
 
 class Favorito(BaseFav): 
     objecto = models.ForeignKey(Clothing,on_delete=models.CASCADE, related_name="favoritos" )
+
