@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.template import defaultfilters
 from django.shortcuts import reverse
+from django_countries.fields import CountryField
 
 # Create your models here.
 
@@ -49,7 +50,7 @@ class Clothing(models.Model):
     id = models.AutoField(primary_key = True)
     cat= models.ForeignKey(Category, on_delete=models.CASCADE)
     nombre= models.CharField(max_length=50)
-    precio = models.IntegerField()
+    precio =  models.FloatField()
     image = models.ImageField(null=True, blank=True)
     publico = models.ForeignKey(Persona, on_delete=models.CASCADE)
     cantidad = models.IntegerField()
@@ -82,10 +83,21 @@ class OrderItem(models.Model):
     def getTotalPrice(self):
         return self.quantity * self.item.precio
 
+class BillingAdress(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    direccion = forms.CharField(max_length = 120)
+    country = CountryField(multiple=False)
+    codigo_postal = forms.CharField(max_length = 120)
+
+    def __str__(self):
+        return self.user.username
+
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     items= models.ManyToManyField(OrderItem)
     ordered = models.BooleanField(default= False)
+    billing_address = models.ForeignKey(BillingAdress, on_delete=models.SET_NULL, blank=True, null=True)
+    payment = models.ForeignKey('Payment', on_delete=models.SET_NULL, blank=True, null=True)
     def __str__(self):
         return self.user.username
 
@@ -94,3 +106,11 @@ class Order(models.Model):
         for order_item in self.items.all():
             total += order_item.getTotalPrice()
         return total 
+
+class Payment(models.Model):
+    stripe_charge_id = models.CharField(max_length = 30)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    amount = models.FloatField()
+    timestamp = models.DateTimeField(auto_now_add = True)
+    def __str__(self):
+        return self.user.username

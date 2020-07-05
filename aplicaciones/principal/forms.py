@@ -2,6 +2,12 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import *
+from django_countries.fields import CountryField
+
+PAYMENT_OPTIONS=(
+    ('S', 'Stripe'),
+    ('P', 'Paypal'),
+)
 
 class UsuarioForm(UserCreationForm):
 
@@ -42,3 +48,12 @@ class Publico(forms.ModelForm):
         model = Persona
         fields = "__all__"
 
+class CheckOutForm(forms.Form):
+    direccion = forms.CharField(max_length = 120)
+    firstname = forms.CharField(max_length = 120)
+    lastname = forms.CharField(max_length = 120)
+    country = CountryField(blank_label = '(select country)').formfield()
+    codigo_postal = forms.CharField(max_length = 120)
+    same_billing_adress = forms.BooleanField(widget=forms.CheckboxInput(), required=False)
+    save_info = forms.BooleanField(widget=forms.CheckboxInput(),required=False)
+    opcionesdepago = forms.ChoiceField(widget=forms.RadioSelect,choices=PAYMENT_OPTIONS)

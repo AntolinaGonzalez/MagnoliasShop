@@ -1,0 +1,116 @@
+{% extends 'inicio.html' %}
+{% load static %}
+{% load fontawesome_5 %}
+{% load authextra %}
+{% block body %}
+
+
+    <!-- Breadcrumb Section Begin -->
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text product-more">
+                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                        <a href="./shop.html">Shop</a>
+                        <span>Check Out</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Section Begin -->
+
+    <!-- Shopping Cart Section Begin -->
+    <section class="checkout-section spad">
+        <div class="container">
+            <form action="#" class="checkout-form" method="POST">
+                {% csrf_token %}
+                
+                <div class="row">
+                    <div class="col-lg-6">
+                        
+                        <h4>Biiling Details</h4>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label for="fir">First Name </label>
+                                {{ form.firstname }}
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="last">Last Name </label>
+                                {{ form.lastname }}
+                            </div>
+                            
+                            <div class="col-lg-4 col-md-12 mb-4">
+                                <label for="cun">Country </label>
+                                {{ form.country }}
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="street">Street Address<span>*</span></label>
+                               {{ form.direccion }}
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="zip">Postcode / ZIP (optional)</label>
+                               {{ form.codigo_postal }}
+                            </div>
+                            
+                            <div class="custom-control custom-checkbox">
+                                {{ form.same_billing_adress }}
+                               <label for="" class="custom-control-label ">same billing adress</label>
+
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                {{ form.save_info }}
+                               <label for="" class="custom-control-label ">Save info</label>
+
+                            </div>
+                            <div class="custom-control custom-checkbox col-lg-12">
+                                {{ form.opcionesdepago }}
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="checkout-content">
+                            <input type="text" placeholder="Enter Your Coupon Code">
+                        </div>
+                        <div class="place-order">
+                            <h4>Your Order</h4>
+                            <div class="order-total">
+                                <ul class="order-table">
+                                    <li>Product <span>Total</span></li>
+                                    <li class="fw-normal">Combination x 1 <span>$60.00</span></li>
+                                    <li class="fw-normal">Combination x 1 <span>$60.00</span></li>
+                                    <li class="fw-normal">Combination x 1 <span>$120.00</span></li>
+                                    <li class="fw-normal">Subtotal <span>$240.00</span></li>
+                                    <li class="total-price">Total <span>$240.00</span></li>
+                                </ul>
+                                <div class="payment-check">
+                                    <div class="pc-item">
+                                        <label for="pc-check">
+                                            Cheque Payment
+                                            <input type="checkbox" id="pc-check">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+                                    <div class="pc-item">
+                                        <label for="pc-paypal">
+                                            Paypal
+                                            <input type="checkbox" id="pc-paypal">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="order-btn">
+                                    <button type="submit" class="site-btn place-btn">Place Order</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+    <!-- Shopping Cart Section End -->
+
+{% endblock %}

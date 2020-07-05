@@ -280,40 +280,30 @@
                 <div id="ropa" class="product-slider owl-carousel">
                     {% for i in clothe %}
                     <div class="product-item">
-
+                           
                         <div class="pi-pic">
                             <img src="{{ i.image.url}}" alt="">
                             <div class="sale">Sale</div>
-                            {% if i.favoritos.all|user_in:user %}
                             <div class="icon">
-                                <i id="icono" class="favorite fas fa-heart" data-type="favorito" data-id="{{i.id }}"
-                                    data-action="marcador"></i>
-
+                                <i class="far fa-heart"></i>
                             </div>
-                            {% else%}
-                            <div class="icon">
-                                <i id="icono" class="favorite far fa-heart" data-type="favorito" data-id="{{i.id }}"
-                                    data-action="marcador"></i>
-
-                            </div>
-                            {% endif%}
                             <ul>
-                                <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                <li class="w-icon active"><a href="#"></i></a></li>
+                                <li class="quick-view"><a href="{{ i.get_absolute_url}}">+ Quick View</a></li>
                                 <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
                             </ul>
                         </div>
                         <div class="pi-text">
                             <div class="catagory-name">Coat</div>
-                            <a href="{% url 'principal:producto' i.id %}">
+                            <a href="{{ i.get_absolute_url}}">
                                 <h5>{{ i.nombre}}</h5>
                             </a>
                             <div class="product-price">
                                 {{i.precio}}
-
+                                
                             </div>
                         </div>
-
+                        
                     </div>
                     {% endfor %}
                 </div>
@@ -321,40 +311,30 @@
                 <div id="cartera" class="product-slider owl-carousel ropita">
                     {% for i in clotheCart %}
                     <div class="product-item">
-
+                           
                         <div class="pi-pic">
                             <img src="{{ i.image.url}}" alt="">
                             <div class="sale">Sale</div>
-                            {% if i.favoritos.all|user_in:user %}
                             <div class="icon">
-                                <i id="icono" class="favorite fas fa-heart" data-type="favorito" data-id="{{i.id }}"
-                                    data-action="marcador"></i>
-
+                                <i class="far fa-heart"></i>
                             </div>
-                            {% else%}
-                            <div class="icon">
-                                <i id="icono" class="favorite far fa-heart" data-type="favorito" data-id="{{i.id }}"
-                                    data-action="marcador"></i>
-
-                            </div>
-                            {% endif%}
                             <ul>
-                                <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                <li class="w-icon active"><a href="#"></i></a></li>
+                                <li class="quick-view"><a href="{{ i.get_absolute_url}}">+ Quick View</a></li>
                                 <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
                             </ul>
                         </div>
                         <div class="pi-text">
                             <div class="catagory-name">Coat</div>
-                            <a href="{% url 'principal:producto' i.id %}">
+                            <a href="{{ i.get_absolute_url}}">
                                 <h5>{{ i.nombre}}</h5>
                             </a>
                             <div class="product-price">
                                 {{i.precio}}
-
+                                
                             </div>
                         </div>
-
+                        
                     </div>
                     {% endfor %}
                 </div>
@@ -362,40 +342,30 @@
                 <div id="zapato" class="product-slider owl-carousel ropita">
                     {% for i in clotheZap %}
                     <div class="product-item">
-
+                           
                         <div class="pi-pic">
                             <img src="{{ i.image.url}}" alt="">
                             <div class="sale">Sale</div>
-                            {% if i.favoritos.all|user_in:user %}
                             <div class="icon">
-                                <i id="icono" class="favorite fas fa-heart" data-type="favorito" data-id="{{i.id }}"
-                                    data-action="marcador"></i>
-
+                                <i class="far fa-heart"></i>
                             </div>
-                            {% else%}
-                            <div class="icon">
-                                <i id="icono" class="favorite far fa-heart" data-type="favorito" data-id="{{i.id }}"
-                                    data-action="marcador"></i>
-
-                            </div>
-                            {% endif%}
                             <ul>
-                                <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                <li class="w-icon active"><a href="#"></i></a></li>
+                                <li class="quick-view"><a href="{{ i.get_absolute_url}}">+ Quick View</a></li>
                                 <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
                             </ul>
                         </div>
                         <div class="pi-text">
                             <div class="catagory-name">Coat</div>
-                            <a href="{% url 'principal:producto' i.id %}">
+                            <a href="{{ i.get_absolute_url}}">
                                 <h5>{{ i.nombre}}</h5>
                             </a>
                             <div class="product-price">
                                 {{i.precio}}
-
+                                
                             </div>
                         </div>
-
+                        
                     </div>
                     {% endfor %}
                 </div>
@@ -403,40 +373,30 @@
                 <div id="accesorio" class="product-slider owl-carousel ropita">
                     {% for i in clotheAcc %}
                     <div class="product-item">
-
+                           
                         <div class="pi-pic">
                             <img src="{{ i.image.url}}" alt="">
                             <div class="sale">Sale</div>
-                            {% if i.favoritos.all|user_in:user %}
                             <div class="icon">
-                                <i id="icono" class="favorite fas fa-heart" data-type="favorito" data-id="{{i.id }}"
-                                    data-action="marcador"></i>
-
+                                <i class="far fa-heart"></i>
                             </div>
-                            {% else%}
-                            <div class="icon">
-                                <i id="icono" class="favorite far fa-heart" data-type="favorito" data-id="{{i.id }}"
-                                    data-action="marcador"></i>
-
-                            </div>
-                            {% endif%}
                             <ul>
-                                <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                <li class="w-icon active"><a href="#"></i></a></li>
+                                <li class="quick-view"><a href="{{ i.get_absolute_url}}">+ Quick View</a></li>
                                 <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
                             </ul>
                         </div>
                         <div class="pi-text">
                             <div class="catagory-name">Coat</div>
-                            <a href="{% url 'principal:producto' i.id %}">
+                            <a href="{{ i.get_absolute_url}}">
                                 <h5>{{ i.nombre}}</h5>
                             </a>
                             <div class="product-price">
                                 {{i.precio}}
-
+                                
                             </div>
                         </div>
-
+                        
                     </div>
                     {% endfor %}
                 </div>
@@ -460,160 +420,120 @@
                 <div id="ropaH" class="product-slider owl-carousel active">
                     {% for i in clotheH %}
                     <div class="product-item">
-
+                           
                         <div class="pi-pic">
                             <img src="{{ i.image.url}}" alt="">
                             <div class="sale">Sale</div>
-                            {% if i.favoritos.all|user_in:user %}
                             <div class="icon">
-                                <i id="icono" class="favorite fas fa-heart" data-type="favorito" data-id="{{i.id }}"
-                                    data-action="marcador"></i>
-
+                                <i class="far fa-heart"></i>
                             </div>
-                            {% else%}
-                            <div class="icon">
-                                <i id="icono" class="favorite far fa-heart" data-type="favorito" data-id="{{i.id }}"
-                                    data-action="marcador"></i>
-
-                            </div>
-                            {% endif%}
                             <ul>
-                                <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                <li class="w-icon active"><a href="#"></i></a></li>
+                                <li class="quick-view"><a href="{{ i.get_absolute_url}}">+ Quick View</a></li>
                                 <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
                             </ul>
                         </div>
                         <div class="pi-text">
                             <div class="catagory-name">Coat</div>
-                            <a href="{% url 'principal:producto' i.id %}">
+                            <a href="{{ i.get_absolute_url}}">
                                 <h5>{{ i.nombre}}</h5>
                             </a>
                             <div class="product-price">
                                 {{i.precio}}
-
+                                
                             </div>
                         </div>
-
+                        
                     </div>
                     {% endfor %}
                 </div>
                 <div id="carteraH" class="product-slider owl-carousel ropita">
                     {% for i in clotheCartH %}
                     <div class="product-item">
-
+                           
                         <div class="pi-pic">
                             <img src="{{ i.image.url}}" alt="">
                             <div class="sale">Sale</div>
-                            {% if i.favoritos.all|user_in:user %}
                             <div class="icon">
-                                <i id="icono" class="favorite fas fa-heart" data-type="favorito" data-id="{{i.id }}"
-                                    data-action="marcador"></i>
-
+                                <i class="far fa-heart"></i>
                             </div>
-                            {% else%}
-                            <div class="icon">
-                                <i id="icono" class="favorite far fa-heart" data-type="favorito" data-id="{{i.id }}"
-                                    data-action="marcador"></i>
-
-                            </div>
-                            {% endif%}
                             <ul>
-                                <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                <li class="w-icon active"><a href="#"></i></a></li>
+                                <li class="quick-view"><a href="{{ i.get_absolute_url}}">+ Quick View</a></li>
                                 <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
                             </ul>
                         </div>
                         <div class="pi-text">
                             <div class="catagory-name">Coat</div>
-                            <a href="{% url 'principal:producto' i.id %}">
+                            <a href="{{ i.get_absolute_url}}">
                                 <h5>{{ i.nombre}}</h5>
                             </a>
                             <div class="product-price">
                                 {{i.precio}}
-
+                                
                             </div>
                         </div>
-
+                        
                     </div>
                     {% endfor %}
                 </div>
                 <div id="zapatoH" class="product-slider owl-carousel ropita">
                     {% for i in clotheZapH %}
                     <div class="product-item">
-
+                           
                         <div class="pi-pic">
                             <img src="{{ i.image.url}}" alt="">
                             <div class="sale">Sale</div>
-                            {% if i.favoritos.all|user_in:user %}
                             <div class="icon">
-                                <i id="icono" class="favorite fas fa-heart" data-type="favorito" data-id="{{i.id }}"
-                                    data-action="marcador"></i>
-
+                                <i class="far fa-heart"></i>
                             </div>
-                            {% else%}
-                            <div class="icon">
-                                <i id="icono" class="favorite far fa-heart" data-type="favorito" data-id="{{i.id }}"
-                                    data-action="marcador"></i>
-
-                            </div>
-                            {% endif%}
                             <ul>
-                                <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                <li class="w-icon active"><a href="#"></i></a></li>
+                                <li class="quick-view"><a href="{{ i.get_absolute_url}}">+ Quick View</a></li>
                                 <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
                             </ul>
                         </div>
                         <div class="pi-text">
                             <div class="catagory-name">Coat</div>
-                            <a href="{% url 'principal:producto' i.id %}">
+                            <a href="{{ i.get_absolute_url}}">
                                 <h5>{{ i.nombre}}</h5>
                             </a>
                             <div class="product-price">
                                 {{i.precio}}
-
+                                
                             </div>
                         </div>
-
+                        
                     </div>
                     {% endfor %}
                 </div>
                 <div id="accesorioH" class="product-slider owl-carousel ropita">
                     {% for i in clotheAcc %}
                     <div class="product-item">
-
+                           
                         <div class="pi-pic">
                             <img src="{{ i.image.url}}" alt="">
                             <div class="sale">Sale</div>
-                            {% if i.favoritos.all|user_in:user %}
                             <div class="icon">
-                                <i id="icono" class="favorite fas fa-heart" data-type="favorito" data-id="{{i.id }}"
-                                    data-action="marcador"></i>
-
+                                <i class="far fa-heart"></i>
                             </div>
-                            {% else%}
-                            <div class="icon">
-                                <i id="icono" class="favorite far fa-heart" data-type="favorito" data-id="{{i.id }}"
-                                    data-action="marcador"></i>
-
-                            </div>
-                            {% endif%}
                             <ul>
-                                <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                <li class="quick-view"><a href="#">+ Quick View</a></li>
+                                <li class="w-icon active"><a href="#"></i></a></li>
+                                <li class="quick-view"><a href="{{ i.get_absolute_url}}">+ Quick View</a></li>
                                 <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
                             </ul>
                         </div>
                         <div class="pi-text">
                             <div class="catagory-name">Coat</div>
-                            <a href="{% url 'principal:producto' i.id %}">
+                            <a href="{{ i.get_absolute_url}}">
                                 <h5>{{ i.nombre}}</h5>
                             </a>
                             <div class="product-price">
                                 {{i.precio}}
-
+                                
                             </div>
                         </div>
-
+                        
                     </div>
                     {% endfor %}
                 </div>

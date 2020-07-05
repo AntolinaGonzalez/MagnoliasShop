@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django import forms
-from .forms import UsuarioForm, Hero, Banner, Aside, Clothes, Publico, Cat, Publico
+from django.conf import settings
+from .forms import UsuarioForm, Hero, Banner, Aside, Clothes, Publico, Cat, Publico, CheckOutForm
 from .models import *
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as do_login
 from django.contrib import messages
@@ -13,11 +15,17 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from aplicaciones.favorites.models import Favorito
 from django.views.generic import ListView, DetailView, View
 import json 
+import stripe
+stripe.api_key = "sk_test_4eC39HqLyjWDarjtT1zdp7dc"
+
 
 # Create your views here.
 def autenticacion(request):
     if not request.user.is_superuser:
         raise PermissionDenied()
+def loginReq(request):
+    if not request.user.is_authenticated:
+        return redirect('principal:login')
 
 def paginaInicio(request):
     images = HeroSeccion.objects.all()
@@ -91,7 +99,113 @@ def inicioCostumer(request):
         }
     return render(request, 'indexcostumer.html', contexto )
 
+class checkoutView(View):
+    def get(self, *args, **kwargs):
+        form= CheckOutForm
+        contexto = {
+            'form':form
+        }
+        return render(self.request, 'check-out.html', contexto)
 
+    def post(self, *args, **kwargs):
+        form= CheckOutForm(self.request.POST or None)
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            if form.is_valid():
+                direccion = form.cleaned_data.get('direccion')
+                firstname = form.cleaned_data.get('firstname')
+                lastname = form.cleaned_data.get('lastname')
+                country = form.cleaned_data.get('country')
+                codigo_postal = form.cleaned_data.get('codigo_postal')
+                #same_billing_adress = form.cleaned_data.get('same_billing_adress')
+                #save_info = form.cleaned_data.get('save_info')
+                opcionesdepago = form.cleaned_data.get('opcionesdepago')
+                billingAdress = BillingAdress(
+                    user=self.request.user,
+                    country=country,
+                    #direccion y cd no anda lpm
+                )
+                billingAdress.save()
+                order.billing_address = billingAdress
+                order.save()
+                if opcionesdepago == 'S':
+                    return redirect('principal:Payment', payment_options='stripe')
+                elif opcionesdepago == 'P': 
+                    return redirect('principal:Payment', payment_options='paypal')
+                else:
+                    messages.warning(self.request, 'Invalid payment option')
+                    return redirect('principal:checkout') 
+            
+            return redirect('principal:checkout')
+        except ObjectDoesNotExist:
+            messages.error(self.request, 'Error')
+        
+class PaymentView(View):
+    def get(self, *args, **kwargs):
+        return render(self.request, 'payment.html')
+    def post(self, *args, **kwargs):
+        order = Order.objects.get(user=self.request.user, ordered=False)
+        token = self.request.POST.get('stripeToken')
+        amount= int(order.getTotalPrice() * 100)
+        try:
+  # Use Stripe's library to make requests...
+            charge = stripe.Charge.create(
+                amount=amount,
+                currency="usd",
+                source = "tok_amex"
+            )
+            payment = Payment()
+            payment.stripe_charge_id = charge['id']
+            payment.user = self.request.user
+            payment.amount = order.getTotalPrice()
+            payment.save()
+
+            order.ordered = True
+            order.payment = payment
+            order.save()
+
+            messages.success(self.request, "Your order was succesful")
+            return redirect('/')
+        except stripe.error.CardError as e:
+  # Since it's a decline, stripe.error.CardError will be caught
+            body=e.json.body
+            err = body.get('error', {})
+            messages.error(self.request, f"{err.get('message')}")
+            return redirect('/')
+        except stripe.error.RateLimitError as e:
+  # Too many requests made to the API too quickly
+            messages.error(self.request, "Rate limit error")
+            
+        except stripe.error.InvalidRequestError as e:
+  # Invalid parameters were supplied to Stripe's API
+            print('Status is: %s' % e.http_status)
+            print('Type is: %s' % e.error.type)
+            print('Code is: %s' % e.error.code)
+            # param is '' in this case
+            print('Param is: %s' % e.error.param)
+            print('Message is: %s' % e.error.message)
+            messages.error(self.request, 'Message is: %s' % e.error.message)
+            return redirect('/')
+            
+        except stripe.error.AuthenticationError as e:
+  # Authentication with Stripe's API failed
+  # (maybe you changed API keys recently)
+            messages.error(self.request, "Not aunthenticated")
+            return redirect('/')
+        except stripe.error.APIConnectionError as e:
+  # Network communication with Stripe failed
+            messages.error(self.request, "API ERROR")
+            return redirect('/')
+        except stripe.error.StripeError as e:
+  # Display a very generic error to the user, and maybe send
+  # yourself an email
+            messages.error(self.request, "STRIPE ERROR")
+            return redirect('/')
+        except Exception as e:
+  # Something else happened, completely unrelated to Stripe
+            messages.error(self.request, "EXCEPTION")
+            return redirect('/')
+        
 class HomeView(ListView):
     queryset= Clothing.objects.filter(publico = "Mujeres")
     paginate_by=6
@@ -99,7 +213,7 @@ class HomeView(ListView):
 
 class HomeViewMan(ListView):
     queryset= Clothing.objects.filter(publico = "Hombres")
-    paginate_by=3
+    paginate_by=6
     template_name = 'shop.html'
     
 class ProductView(DetailView):
@@ -107,37 +221,45 @@ class ProductView(DetailView):
     template_name = 'product.html'
 
 class OrderSummary(View):
+    
     def get(self, *args, **kwargs):
-        try:
-            order = Order.objects.get(user=self.request.user, ordered=False)
-            contexto ={
-                'order': order
-            }
-            return render(self.request, 'shopping-cart.html', contexto)
-        except ObjectDoesNotExist:
-            messages.error(self.request, 'Error')
-            return redirect('principal:HomeView')
+        if self.request.user.is_authenticated:
+            try:
+                order = Order.objects.get(user=self.request.user, ordered=False)
+                contexto ={
+                    'order': order
+                }
+                return render(self.request, 'shopping-cart.html', contexto)
+            except ObjectDoesNotExist:
+                messages.error(self.request, 'Error')
+                return redirect('principal:HomeView')
+        else:
+            return redirect('principal:login')
+
         
 
 
 def addToCart(request,pk):
-    item = get_object_or_404(Clothing, pk=pk)
-    order_item, created = OrderItem.objects.get_or_create(item=item, user=request.user, ordered=False)
-    order_qs= Order.objects.filter(user=request.user, ordered=False)
-    if order_qs.exists() :
-        order= order_qs[0]
+    if request.user.is_authenticated:
+        item = get_object_or_404(Clothing, pk=pk)
+        order_item, created = OrderItem.objects.get_or_create(item=item, user=request.user, ordered=False)
+        order_qs= Order.objects.filter(user=request.user, ordered=False)
+        if order_qs.exists() :
+            order= order_qs[0]
 
-        if order.items.filter(item__id=item.id).exists():
-            order_item.quantity += 1
-            order_item.save()
-            messages.info(request, 'Your item was updated')
-            return redirect('principal:OrderSummary')
+            if order.items.filter(item__id=item.id).exists():
+                order_item.quantity += 1
+                order_item.save()
+                messages.info(request, 'Your item was updated')
+                return redirect('principal:OrderSummary')
+            else:
+                messages.info(request, 'Your item was added')
+                order.items.add(order_item)
         else:
-            messages.info(request, 'Your item was added')
+            order= Order.objects.create(user=request.user)
             order.items.add(order_item)
     else:
-        order= Order.objects.create(user=request.user)
-        order.items.add(order_item)
+        return redirect('principal:login')
     return redirect('principal:producto', pk=pk)
 
 def removeFromCart(request,pk):

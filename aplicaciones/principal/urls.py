@@ -25,7 +25,9 @@ urlpatterns = [
     path('shopH/', HomeViewMan.as_view(), name="shopH"),
     url(r'^marcar/favorito/(?P<pk>\d+)/marcador/$', marcador, name="marcar"),
     path('addToCart/<pk>/', addToCart, name="addToCart"),
+    path('checkout/', checkoutView.as_view(), name="checkout"),
     path('OrderSummary/', OrderSummary.as_view(), name="OrderSummary"),
+    path('payment/<payment_options>/', PaymentView.as_view(), name="Payment"),
     path('removeFromCart/<pk>/', removeFromCart, name="removeFromCart"),
     path('removeItem/<pk>/', removeItemFromCart, name="removeItem")
 

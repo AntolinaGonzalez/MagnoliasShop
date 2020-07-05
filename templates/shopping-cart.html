@@ -86,7 +86,7 @@
                                     <li class="subtotal">Subtotal <span>${{order.getTotalPrice}}</span></li>
                                     <li class="cart-total">Total <span>${{order.getTotalPrice}}</span></li>
                                 </ul>
-                                <a href="#" class="proceed-btn">PROCEED TO CHECK OUT</a>
+                                <a href="{% url 'principal:checkout' %}" class="proceed-btn">PROCEED TO CHECK OUT</a>
                             </div>
                         </div>
                         {% endif %}

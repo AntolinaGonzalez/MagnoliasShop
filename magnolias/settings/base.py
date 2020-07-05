@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'aplicaciones.principal',
     'widget_tweaks',
     'aplicaciones.favorites',
+    'django_countries'
 ]
 
 MIDDLEWARE = [
