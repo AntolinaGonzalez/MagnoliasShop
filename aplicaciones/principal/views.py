@@ -16,8 +16,8 @@ from aplicaciones.favorites.models import Favorito
 from django.views.generic import ListView, DetailView, View
 import json 
 import stripe
-stripe.api_key = "sk_test_4eC39HqLyjWDarjtT1zdp7dc"
 
+stripe.api_key = "sk_test_4eC39HqLyjWDarjtT1zdp7dc"
 
 # Create your views here.
 def autenticacion(request):
@@ -123,6 +123,7 @@ class checkoutView(View):
                 billingAdress = BillingAdress(
                     user=self.request.user,
                     country=country,
+                    #direccion=direccion
                     #direccion y cd no anda lpm
                 )
                 billingAdress.save()
@@ -142,10 +143,14 @@ class checkoutView(View):
         
 class PaymentView(View):
     def get(self, *args, **kwargs):
-        return render(self.request, 'payment.html')
+        order = Order.objects.get(user=self.request.user, ordered=False)
+        contexto = {
+            'order':order
+        }
+        return render(self.request, 'payment.html', contexto)
     def post(self, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False)
-        token = self.request.POST.get('stripeToken')
+        token = self.request.POST.get('stripeTokenHandler')
         amount= int(order.getTotalPrice() * 100)
         try:
   # Use Stripe's library to make requests...
@@ -160,6 +165,10 @@ class PaymentView(View):
             payment.amount = order.getTotalPrice()
             payment.save()
 
+            order_items=order.items.all()
+            order_items.update(ordered=True)
+            for item in order_items:
+                item.save()
             order.ordered = True
             order.payment = payment
             order.save()
@@ -205,7 +214,9 @@ class PaymentView(View):
   # Something else happened, completely unrelated to Stripe
             messages.error(self.request, "EXCEPTION")
             return redirect('/')
-        
+
+
+     
 class HomeView(ListView):
     queryset= Clothing.objects.filter(publico = "Mujeres")
     paginate_by=6
@@ -227,7 +238,7 @@ class OrderSummary(View):
             try:
                 order = Order.objects.get(user=self.request.user, ordered=False)
                 contexto ={
-                    'order': order
+                    'order': order,
                 }
                 return render(self.request, 'shopping-cart.html', contexto)
             except ObjectDoesNotExist:
@@ -309,7 +320,7 @@ def inicioOwner(request):
 
     if request.method =="GET":
         favorites= Favorito.objects.filter(user=request.user)
-        cantFav= len(Favorito.objects.filter(user=request.user))
+        #cantFav= len(Favorito.objects.filter(user=request.user))
         images = HeroSeccion.objects.all()
         banners = BannerSection.objects.all()
         aside = AsideImage.objects.filter(publico = "Mujeres")
@@ -354,7 +365,7 @@ def inicioOwner(request):
             'clotheAccH':clotheAccH,
             'likes':likes,
             'favorites': favorites,
-            'cantFav': cantFav
+            #'cantFav': cantFav
             }
             
     if request.method == "POST": 
@@ -395,7 +406,7 @@ def inicioOwner(request):
 
 
 def banner(request):
-    autenticacion()
+    autenticacion(request)
     if request.method=="GET":
         form= Banner()
         contexto={
@@ -475,7 +486,7 @@ def register(request):
     return render(request, "register.html", {'form': form})
 
 def cambios(request,id):
-    autenticacion()
+    autenticacion(request)
     img= HeroSeccion.objects.get(id = id)
     if request.method == 'GET':
         form = Hero(instance = img)
@@ -493,7 +504,7 @@ def cambios(request,id):
     return render(request,'changehero.html',contexto)
 
 def cambiosAside(request,id):
-    autenticacion()
+    autenticacion(request)
     aside= AsideImage.objects.get(id = id)
     if request.method == 'GET':
         form = Aside(instance = aside)
@@ -511,7 +522,7 @@ def cambiosAside(request,id):
     return render(request,'aside.html',contexto)
 
 def cambiosbanner(request,id):
-    autenticacion()
+    autenticacion(request)
     ban=BannerSection.objects.get(id = id)
     if request.method == "GET":
         form = Banner(instance = ban)
@@ -531,25 +542,25 @@ def cambiosbanner(request,id):
 
 
 def eliminarPromo(request,id):
-    autenticacion()
+    autenticacion(request)
     img= HeroSeccion.objects.get(id=id)
     img.delete()
     return redirect('principal:index')
 
 def eliminarBanner(request,id):
-    autenticacion()
+    autenticacion(request)
     ban= BannerSection.objects.get(id = id)
     ban.delete()
     return redirect('principal:index')
 
 def eliminarCategoria(request,name):
-    autenticacion()
+    autenticacion(request)
     cat= Category.objects.get(name=name)
     cat.delete()
     return redirect('principal:index')
 
 def eliminarPublico(request, publico):
-    autenticacion()
+    autenticacion(request)
     pub= Persona.objects.get(publico = publico)
     pub.delete()
     return redirect('principal:index')

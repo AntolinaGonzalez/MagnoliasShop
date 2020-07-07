@@ -4,7 +4,7 @@
 {% load authextra %}
 {% block body %}
 <button id="formulario-hero" class="primary-btn">Agregar Promo</button>
-{% block promoform %}
+
 <div id="desplegar-form">
     <div class="form-Hero" id="funciona">
         <div class="container">
@@ -29,7 +29,7 @@
         </div>
     </div>
 </div>
-{% endblock %}
+
 
 <button id="formulario-banner" class="primary-btn">Agregar Banner</button>
 
@@ -157,7 +157,8 @@
 
 
 <button id="public" class="primary-btn">Publico</button>
-<section id="publico" class="ropita">
+<section >
+<!-- <section id="publico" class="ropita"> -->
     <div>
         <div class="container">
             <div class="row ">
@@ -202,7 +203,7 @@
     <div class="hero-items owl-carousel">
 
         {% for img in images %}
-        <div class="single-hero-items set-bg" data-setbg="{{ img.image.url}}">
+        <div class="single-hero-items set-bg" data-setbg="{{ img.image.url }}">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-5">
@@ -400,7 +401,8 @@
                     </div>
                     {% endfor %}
                 </div>
-                <a href="{% url 'principal:shop' %}">Todos los articulos</a>
+                <a href="{% url 'principal:shop' %}" class="primary-btn"></i>Todos los articulos</a>
+               
             </div>
         </div>
     </div>
@@ -537,7 +539,8 @@
                     </div>
                     {% endfor %}
                 </div>
-                <a href="{% url 'principal:shopH' %}">Todos los articulos</a>
+                <a href="{% url 'principal:shopH' %}" class="primary-btn"></i>Todos los articulos</a>
+
             </div>
             {% for i in asideHom %}
             <div class="col-lg-3 offset-lg-1">

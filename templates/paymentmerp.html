@@ -1,0 +1,300 @@
+{% extends "inicio.html" %}
+
+{% block extra_head %}
+<style>
+
+#stripeBtnLabel {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 16px;
+  font-variant: normal;
+  padding: 0;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 500;
+  display: block;
+}
+
+#stripeBtn {
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  text-decoration: none;
+  color: #fff;
+  background: #32325d;
+  white-space: nowrap;
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  text-decoration: none;
+  -webkit-transition: all 150ms ease;
+  transition: all 150ms ease;
+  float: left;
+  width: 100%
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 7px 14px rgba(50, 50, 93, .10), 0 3px 6px rgba(0, 0, 0, .08);
+  background-color: #43458b;
+}
+
+.stripe-form {
+  padding: 5px 30px;
+}
+
+#card-errors {
+  height: 20px;
+  padding: 4px 0;
+  color: #fa755a;
+}
+
+.stripe-form-row {
+  width: 100%;
+  float: left;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+/**
+ * The CSS shown here will not be introduced in the Quickstart guide, but shows
+ * how you can use CSS to style your Element's container.
+ */
+.StripeElement {
+  box-sizing: border-box;
+
+  height: 40px;
+
+  padding: 10px 12px;
+
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: white;
+
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}
+
+.current-card-form {
+  display: none;
+}
+
+</style>
+{% endblock extra_head %}
+
+{% block body %}
+
+  <main >
+    <div class="container wow fadeIn">
+
+      <h2 class="my-5 h2 text-center">Payment</h2>
+
+            <script src="https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"></script>
+            <form action="/procesar_pago.php" method="post" id="pay" name="pay" >
+                <fieldset>
+                    <p>
+                        <label for="description">Descripción</label>                        
+                        <input type="text" name="description" id="description" value="{{ orderitem.item.nombre }}"/>
+                    </p>                    
+                    <p>
+                        <label for="transaction_amount">Monto a pagar</label>                        
+                        <input name="transaction_amount" id="transaction_amount" value="{{order.getTotalPrice }}"/>
+                    </p>
+                    <p>
+                        <label for="cardNumber">Número de la tarjeta</label>
+                        <input type="text" id="cardNumber" data-checkout="cardNumber" onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off />
+                    </p>
+                    <p>
+                        <label for="cardholderName">Nombre y apellido</label>
+                        <input type="text" id="cardholderName" data-checkout="cardholderName" />
+                    </p>                                    
+                    <p>
+                        <label for="cardExpirationMonth">Mes de vencimiento</label>
+                        <input type="text" id="cardExpirationMonth" data-checkout="cardExpirationMonth" onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off />
+                    </p>
+                    <p>
+                        <label for="cardExpirationYear">Año de vencimiento</label>
+                        <input type="text" id="cardExpirationYear" data-checkout="cardExpirationYear" onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off />
+                    </p>
+                    <p>
+                        <label for="securityCode">Código de seguridad</label>
+                        <input type="text" id="securityCode" data-checkout="securityCode" onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off />
+                    </p>
+                    <p>
+                        <label for="installments">Cuotas</label>
+                        <select id="installments" class="form-control" name="installments"></select>
+                    </p>
+                    <p>
+                        <label for="docType">Tipo de documento</label>
+                        <select id="docType" data-checkout="docType"></select>
+                    </p>
+                    <p>
+                        <label for="docNumber">Número de documento</label>
+                        <input type="text" id="docNumber" data-checkout="docNumber"/>
+                    </p>
+                    <p>
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" value="test@test.com"/>
+                    </p>  
+                    <input type="hidden" name="payment_method_id" id="payment_method_id"/>
+                    <input type="submit" value="Pagar"/>
+                </fieldset>
+            </form>
+
+            
+
+          </div>
+        </div>
+        <div class="col-ml-6 checkout-section spad">
+                 
+          <div class="col-ml-6">
+              <div class="place-order">
+                  <h4>Your Order</h4>
+                  <div class="order-total">
+                      <ul class="order-table">
+                          <li>Product <span>Total <span>{{ order.items.count }}</span></span></li>
+                          {% for orderitem in order.items.all %}
+                          <li class="fw-normal">{{orderitem.quantity}} X {{ orderitem.item.nombre }}<span> ${{ orderitem.getTotalPrice }}</span></li>
+                          {% endfor %}
+                      </ul>
+                      <div>
+                        <span>Total</span>
+                        <span>$ {{order.getTotalPrice }} </span>
+                      </div>
+                      <div class="payment-check">
+                          <div class="pc-item">
+                              <label for="pc-check">
+                                  Cheque Payment
+                                  <input type="checkbox" id="pc-check">
+                                  <span class="checkmark"></span>
+                              </label>
+                          </div>
+                          <div class="pc-item">
+                              <label for="pc-paypal">
+                                  Paypal
+                                  <input type="checkbox" id="pc-paypal">
+                                  <span class="checkmark"></span>
+                              </label>
+                          </div>
+                      </div>
+                      <div class="order-btn">
+                          <button type="submit" class="site-btn place-btn">Place Order</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      </div>
+
+    </div>
+    <section class="checkout-section spad">
+      <div class="container">
+          <form action="#" class="checkout-form" method="POST">
+             
+                  
+          </form>
+      </div>
+  </section>
+  </main>
+
+{% endblock body %}
+
+{% block extra_scripts %}
+
+<script nonce="">  // Create a Stripe client.
+window.Mercadopago.setPublishableKey("TEST-9a5bfcef-fe5d-4f3c-8453-c6ba0c7acbaf");  
+window.Mercadopago.getIdentificationTypes();
+document.getElementById('cardNumber').addEventListener('keyup', guessPaymentMethod);
+document.getElementById('cardNumber').addEventListener('change', guessPaymentMethod);
+
+function guessPaymentMethod(event) {
+    let cardnumber = document.getElementById("cardNumber").value;
+
+    if (cardnumber.length >= 6) {
+        let bin = cardnumber.substring(0,6);
+        window.Mercadopago.getPaymentMethod({
+            "bin": bin
+        }, setPaymentMethod);
+    }
+};
+
+function setPaymentMethod(status, response) {
+    if (status == 200) {
+        let paymentMethodId = response[0].id;
+        let element = document.getElementById('payment_method_id');
+        element.value = paymentMethodId;
+        getInstallments();
+    } else {
+        alert(`payment method info error: ${response}`);
+    }
+}
+function getInstallments(){
+    window.Mercadopago.getInstallments({
+        "payment_method_id": document.getElementById('payment_method_id').value,
+        "amount": parseFloat(document.getElementById('transaction_amount').value)
+
+    }, function (status, response) {
+        if (status == 200) {
+            document.getElementById('installments').options.length = 0;
+            response[0].payer_costs.forEach( installment => {
+                let opt = document.createElement('option');
+                opt.text = installment.recommended_message;
+                opt.value = installment.installments;
+                document.getElementById('installments').appendChild(opt);
+            });
+        } else {
+            alert(`installments method info error: ${response}`);
+        }
+    });
+}
+doSubmit = false;
+document.querySelector('#pay').addEventListener('submit', doPay);
+
+function doPay(event){
+    event.preventDefault();
+    if(!doSubmit){
+        var $form = document.querySelector('#pay');
+
+        window.Mercadopago.createToken($form, sdkResponseHandler);
+
+        return false;
+    }
+};
+
+function sdkResponseHandler(status, response) {
+    if (status != 200 && status != 201) {
+        alert("verify filled data");
+    }else{
+        var form = document.querySelector('#pay');
+        var card = document.createElement('input');
+        card.setAttribute('name', 'token');
+        card.setAttribute('type', 'hidden');
+        card.setAttribute('value', response.id);
+        form.appendChild(card);
+        doSubmit=true;
+        form.submit();
+    }
+};
+
+
+</script>
+
+{% endblock extra_scripts %}

@@ -1,0 +1,22 @@
+#desplegar-form{
+    display: none;
+}
+#desplegar-form-aside{
+    display: none;
+}
+
+#inventario-css{
+    display: none;
+}
+#banner{
+    display: none;
+}
+#inventario-css{
+    display: none;
+}
+.ropita{
+    display: none!important;
+}
+.ropashow{
+    display: block!important;
+}

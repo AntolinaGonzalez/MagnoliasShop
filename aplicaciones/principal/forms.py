@@ -49,11 +49,11 @@ class Publico(forms.ModelForm):
         fields = "__all__"
 
 class CheckOutForm(forms.Form):
-    direccion = forms.CharField(max_length = 120)
-    firstname = forms.CharField(max_length = 120)
-    lastname = forms.CharField(max_length = 120)
+    direccion = forms.CharField()
+    firstname = forms.CharField()
+    lastname = forms.CharField()
     country = CountryField(blank_label = '(select country)').formfield()
-    codigo_postal = forms.CharField(max_length = 120)
+    codigo_postal = forms.CharField()
     same_billing_adress = forms.BooleanField(widget=forms.CheckboxInput(), required=False)
     save_info = forms.BooleanField(widget=forms.CheckboxInput(),required=False)
     opcionesdepago = forms.ChoiceField(widget=forms.RadioSelect,choices=PAYMENT_OPTIONS)

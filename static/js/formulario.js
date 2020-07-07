@@ -1,0 +1,162 @@
+(function ($){
+    $("#HombreC").click(function(){
+        $("#accesorioH").removeClass("ropashow");
+        $("#carteraH").removeClass("ropashow");
+        $("#zapatoH").removeClass("ropashow");
+        $(".bagH").removeClass("active");
+        $(".shoeH").removeClass("active");
+        $(".accesoryH").removeClass("active");
+        $("#zapatoH").addClass("ropita");
+        $("#carteraH").addClass("ropita");
+        $("#accesorioH").addClass("ropita");
+        $(".RopaH").addClass("active");
+        $("#ropaH").removeClass("ropita");
+        $("#ropaH").addClass("ropashow");
+    });
+    $("#zapasjsH").click(function(){
+        $(".RopaH").removeClass("active");
+        $(".accesoryH").removeClass("active");
+        $(".bagH").removeClass("active");
+        $("#ropaH").removeClass("ropashow");
+        $("#accesorioH").removeClass("ropashow");
+        $("#carteraH").removeClass("ropashow");
+        $("#ropaH").addClass("ropita");
+        $("#carteraH").addClass("ropita");
+        $("#accesorioH").addClass("ropita");
+        $(".shoeH").addClass("active");
+        $("#zapatoH").removeClass("ropita");
+        $("#zapatoH").addClass("ropashow");
+    });
+    $("#carterajsH").click(function(){
+        $(".RopaH").removeClass("active");
+        $(".accesoryH").removeClass("active");
+        $(".shoeH").removeClass("active");
+        $("#ropaH").removeClass("ropashow");
+        $("#zapatoH").removeClass("ropashow");
+        $("#accesorioH").removeClass("ropashow");
+        $("#zapatoH").addClass("ropita");
+        $("#ropaH").addClass("ropita");
+        $("#carteraH").addClass("ropita");
+        $(".bagH").addClass("active");
+        $("#accesorioH").addClass("ropita");
+        $("#carteraH").removeClass("ropita");
+        $("#carteraH").addClass("ropashow");
+    });
+    $("#accjsH").click(function(){
+        $(".RopaH").removeClass("active");
+        $(".shoeH").removeClass("active");
+        $(".bagH").removeClass("active");
+        $("#ropaH").removeClass("ropashow");
+        $("#zapatoH").removeClass("ropashow");
+        $("#carteraH").removeClass("ropashow");
+        $("#carteraH").addClass("ropita");
+        $("#zapatoH").addClass("ropita");
+        $("#ropaH").addClass("ropita");
+        $(".accesoryH").addClass("active");
+        $("#accesorioH").removeClass("ropita");
+        $("#accesorioH").addClass("ropashow");
+    });
+    $("#cate").click(function(){
+        var $this = $("#categor");
+        if ($this.hasClass("ropita")){
+            $this.removeClass();
+            $this.addClass("ropashow");
+        } else if ($this.hasClass("ropashow")){
+            $this.removeClass();
+            $this.addClass("ropita");
+        }
+    
+    });
+    $("#public").click(function(){
+        var $this = $("#publico");
+        if ($this.hasClass("ropita")){
+            $this.removeClass();
+            $this.addClass("ropashow");
+        } else if ($this.hasClass("ropashow")){
+            $this.removeClass();
+            $this.addClass("ropita");
+        }
+    
+    });
+$("#ropajs").click(function(){
+    $("#accesorio").removeClass("ropashow");
+    $("#cartera").removeClass("ropashow");
+    $("#zapato").removeClass("ropashow");
+    $(".bag").removeClass("active");
+    $(".shoe").removeClass("active");
+    $(".accesory").removeClass("active");
+    $("#zapato").addClass("ropita");
+    $("#cartera").addClass("ropita");
+    $("#accesorio").addClass("ropita");
+    $(".clothe").addClass("active");
+    $("#ropa").removeClass("ropita");
+    $("#ropa").addClass("ropashow");
+});
+$("#zapasjs").click(function(){
+    $(".clothe").removeClass("active");
+    $(".accesory").removeClass("active");
+    $(".bag").removeClass("active");
+    $("#ropa").removeClass("ropashow");
+    $("#accesorio").removeClass("ropashow");
+    $("#cartera").removeClass("ropashow");
+    $("#ropa").addClass("ropita");
+    $("#cartera").addClass("ropita");
+    $("#accesorio").addClass("ropita");
+    $(".shoe").addClass("active");
+    $("#zapato").removeClass("ropita");
+    $("#zapato").addClass("ropashow");
+});
+$("#carterajs").click(function(){
+    $(".clothe").removeClass("active");
+    $(".accesory").removeClass("active");
+    $(".shoe").removeClass("active");
+    $("#ropa").removeClass("ropashow");
+    $("#zapato").removeClass("ropashow");
+    $("#accesorio").removeClass("ropashow");
+    $("#zapato").addClass("ropita");
+    $("#ropa").addClass("ropita");
+    $("#cartera").addClass("ropita");
+    $(".bag").addClass("active");
+    $("#accesorio").addClass("ropita");
+    $("#cartera").removeClass("ropita");
+    $("#cartera").addClass("ropashow");
+});
+$("#accjs").click(function(){
+    $(".clothe").removeClass("active");
+    $(".shoe").removeClass("active");
+    $(".bag").removeClass("active");
+    $("#ropa").removeClass("ropashow");
+    $("#zapato").removeClass("ropashow");
+    $("#cartera").removeClass("ropashow");
+    $("#cartera").addClass("ropita");
+    $("#zapato").addClass("ropita");
+    $("#ropa").addClass("ropita");
+    $(".accesory").addClass("active");
+    $("#accesorio").removeClass("ropita");
+    $("#accesorio").addClass("ropashow");
+});
+$("#categoria").click(function(){
+    $("#category").toogle();
+});
+$("#inventario-clothes").click(function(){
+    $("#inventario-css").toggle();
+}); 
+$("#inventario-js").click(function(){
+    $("#inventario-css").toogle();
+});
+$("#inventario").click(function(){
+    $("#inventario-css").toogle();
+});
+$("#formulario-banner").click(function(){
+    $("#banner").toggle();
+});
+$("#formulario-aside").click(function(){
+    $("#desplegar-form-aside").toggle();
+});   
+$("#form-cat").click(function(){
+    $("#category").toogle();
+});
+$("#formulario-hero").click(function(){
+    $("#desplegar-form").toggle();
+}); 
+})(jQuery);
