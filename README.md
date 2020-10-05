@@ -4,7 +4,6 @@ Project about ecommerce web page  using Python and Django, Postgres and Heroku a
 
 Templates Free by https://colorlib.com/wp/cat/ecommerce/ 
 
-You can see it in https://magnoliashop.herokuapp.com/
 
 As a superuser you can add photos to the inventary, modify and delete
 
